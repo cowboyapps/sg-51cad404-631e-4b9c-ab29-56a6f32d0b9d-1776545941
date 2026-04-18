@@ -19,6 +19,7 @@ export type Database = {
         Row: {
           created_at: string | null
           custom_domain: string | null
+          custom_pricing: Json | null
           description: string | null
           domain_auto_renew: boolean | null
           domain_managed_by_platform: boolean | null
@@ -32,6 +33,7 @@ export type Database = {
           logo_url: string | null
           name: string
           owner_id: string
+          platform_tier_id: string | null
           primary_color: string | null
           seo_settings: Json | null
           site_theme: Json | null
@@ -43,6 +45,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           custom_domain?: string | null
+          custom_pricing?: Json | null
           description?: string | null
           domain_auto_renew?: boolean | null
           domain_managed_by_platform?: boolean | null
@@ -56,6 +59,7 @@ export type Database = {
           logo_url?: string | null
           name: string
           owner_id: string
+          platform_tier_id?: string | null
           primary_color?: string | null
           seo_settings?: Json | null
           site_theme?: Json | null
@@ -67,6 +71,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           custom_domain?: string | null
+          custom_pricing?: Json | null
           description?: string | null
           domain_auto_renew?: boolean | null
           domain_managed_by_platform?: boolean | null
@@ -80,6 +85,7 @@ export type Database = {
           logo_url?: string | null
           name?: string
           owner_id?: string
+          platform_tier_id?: string | null
           primary_color?: string | null
           seo_settings?: Json | null
           site_theme?: Json | null
@@ -94,6 +100,13 @@ export type Database = {
             columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "businesses_platform_tier_id_fkey"
+            columns: ["platform_tier_id"]
+            isOneToOne: false
+            referencedRelation: "platform_pricing"
             referencedColumns: ["id"]
           },
         ]
@@ -209,6 +222,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      platform_pricing: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          display_name: string
+          features: Json
+          id: string
+          is_active: boolean | null
+          monthly_price: number
+          sort_order: number | null
+          stripe_monthly_price_id: string | null
+          stripe_yearly_price_id: string | null
+          tier_name: string
+          updated_at: string | null
+          yearly_price: number
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          display_name: string
+          features?: Json
+          id?: string
+          is_active?: boolean | null
+          monthly_price: number
+          sort_order?: number | null
+          stripe_monthly_price_id?: string | null
+          stripe_yearly_price_id?: string | null
+          tier_name: string
+          updated_at?: string | null
+          yearly_price: number
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          display_name?: string
+          features?: Json
+          id?: string
+          is_active?: boolean | null
+          monthly_price?: number
+          sort_order?: number | null
+          stripe_monthly_price_id?: string | null
+          stripe_yearly_price_id?: string | null
+          tier_name?: string
+          updated_at?: string | null
+          yearly_price?: number
+        }
+        Relationships: []
       }
       profiles: {
         Row: {

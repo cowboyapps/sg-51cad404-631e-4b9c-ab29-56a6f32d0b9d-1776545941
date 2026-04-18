@@ -1,6 +1,6 @@
 ---
 title: Main website refresh with all new features
-status: in_progress
+status: done
 priority: high
 type: feature
 tags: [marketing, homepage, features]
@@ -13,9 +13,9 @@ position: 18
 Update main platform website (index.tsx) to showcase all features we've built: domain marketplace, white-label branding, email branding, support tickets, billing automation, SEO tools, theme customization. Professional hero section, feature grid, pricing preview, business owner testimonials.
 
 ## Checklist
-- [ ] Create hero section with compelling value proposition for IPTV business owners
-- [ ] Build feature showcase grid highlighting: domain marketplace, white-labeling, billing automation, support system, SEO tools, theme editor
-- [ ] Add "How It Works" section with 3-step process
-- [ ] Create stats section showing platform capabilities (customers, businesses, uptime)
-- [ ] Add CTA sections driving to business owner sign-up
-- [ ] Build footer with links to pricing, docs, support
+- [x] Create hero section with compelling value proposition for IPTV business owners
+- [x] Build feature showcase grid highlighting: domain marketplace, white-labeling, billing automation, support system, SEO tools, theme editor
+- [x] Add "How It Works" section with 3-step process
+- [x] Create stats section showing platform capabilities (customers, businesses, uptime)
+- [x] Add CTA sections driving to business owner sign-up
+- [x] Build footer with links to pricing, docs, support
