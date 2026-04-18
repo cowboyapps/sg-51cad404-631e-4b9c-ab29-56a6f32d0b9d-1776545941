@@ -24,20 +24,20 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const { data, error } = await authService.signIn(email, password);
+      const { user, error } = await authService.signIn(formData.email, formData.password);
       
       if (error) throw error;
-      if (!data.user) throw new Error("No user returned");
+      if (!user) throw new Error("No user returned");
 
       // Get user profile to check role
       const { data: profile } = await supabase
         .from("profiles")
         .select("role, business_id")
-        .eq("id", data.user.id)
+        .eq("id", user.id)
         .single();
 
       // Redirect based on role
-      if (profile?.role === "platform_admin") {
+      if (profile?.role === "master_admin") {
         router.push("/admin");
       } else if (profile?.role === "business_owner") {
         router.push("/business");
