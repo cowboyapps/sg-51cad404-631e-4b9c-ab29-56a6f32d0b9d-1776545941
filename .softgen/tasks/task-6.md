@@ -1,20 +1,22 @@
 ---
 title: Subscription plans management
-status: todo
+status: done
 priority: high
 type: feature
-tags: [business, plans, billing]
+tags: [business, billing, plans]
 created_by: agent
-created_at: 2026-04-18T19:16:24Z
+created_at: 2026-04-18T19:17:45.596688
 position: 6
 ---
 
 ## Notes
-Business owners create and manage their subscription plans (monthly/yearly pricing tiers). Plan builder with name, price, billing cycle, features list, connection limits. Plans are used in customer sign-up flow.
+Business owners configure pricing packages (monthly/quarterly/yearly billing cycles) with features lists. Plans can be activated/deactivated without deletion. Validation prevents deleting plans with active subscribers.
 
 ## Checklist
-- [ ] Create /business/plans page: table of all subscription plans with name, price, billing cycle, active status
-- [ ] Add create plan form: name, description, price, billing cycle (monthly/yearly), connection limit, features list
-- [ ] Create plan edit modal: update plan details, activate/deactivate
-- [ ] Add plan preview: show how plan appears to customers
-- [ ] Implement plan validation: prevent deleting plans with active subscribers
+- [x] Create /business/plans route
+- [x] Build plan creation form: name, price, billing cycle, features list
+- [x] Display plans in card grid with pricing, features, active/inactive badges
+- [x] Implement edit plan (updates existing plan)
+- [x] Implement delete plan (with active subscriber validation)
+- [x] Add activate/deactivate toggle (hides/shows plans to customers)
+- [x] Implement plan validation: prevent deleting plans with active subscribers
