@@ -227,7 +227,17 @@ export default function BusinessSettings() {
     setSuccess("");
 
     try {
-      await domainService.purchaseDomain(business.id, domain, price);
+      await domainService.purchaseDomain(business.id, domain, {
+        firstName: "Business",
+        lastName: "Owner",
+        email: "admin@example.com",
+        phone: "+1-555-0100",
+        address: "123 Business St",
+        city: "City",
+        state: "ST",
+        zip: "12345",
+        country: "US"
+      });
       setSuccess(`Domain ${domain} purchased successfully! DNS configured automatically.`);
       setTimeout(() => setSuccess(""), 5000);
       loadBusiness(); // Reload to show new domain
@@ -246,7 +256,7 @@ export default function BusinessSettings() {
 
     try {
       const newValue = !business.domain_auto_renew;
-      await domainService.updateAutoRenew(business.id, newValue);
+      await domainService.setAutoRenew(business.id, newValue);
       setSuccess(`Auto-renewal ${newValue ? "enabled" : "disabled"}`);
       setTimeout(() => setSuccess(""), 3000);
       loadBusiness();
