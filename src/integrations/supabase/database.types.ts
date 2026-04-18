@@ -515,9 +515,86 @@ export type Database = {
           },
         ]
       }
+      usage_logs: {
+        Row: {
+          bandwidth_mb: number | null
+          business_id: string
+          concurrent_streams: number | null
+          created_at: string | null
+          customer_id: string
+          device_info: Json | null
+          id: string
+          logged_at: string | null
+          watch_minutes: number | null
+        }
+        Insert: {
+          bandwidth_mb?: number | null
+          business_id: string
+          concurrent_streams?: number | null
+          created_at?: string | null
+          customer_id: string
+          device_info?: Json | null
+          id?: string
+          logged_at?: string | null
+          watch_minutes?: number | null
+        }
+        Update: {
+          bandwidth_mb?: number | null
+          business_id?: string
+          concurrent_streams?: number | null
+          created_at?: string | null
+          customer_id?: string
+          device_info?: Json | null
+          id?: string
+          logged_at?: string | null
+          watch_minutes?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "usage_logs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "usage_logs_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
-      [_ in never]: never
+      customer_usage_summary: {
+        Row: {
+          active_hours: number | null
+          business_id: string | null
+          customer_id: string | null
+          peak_concurrent_streams: number | null
+          total_bandwidth_mb: number | null
+          total_watch_minutes: number | null
+          usage_date: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "usage_logs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "usage_logs_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       generate_iptv_password: { Args: never; Returns: string }
