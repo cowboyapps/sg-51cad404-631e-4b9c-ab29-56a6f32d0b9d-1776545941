@@ -1,10 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SEO } from "@/components/SEO";
+import { ThemeSwitch } from "@/components/ThemeSwitch";
 import Link from "next/link";
-import { ArrowRight, Zap, Users, DollarSign, Globe, Settings, BarChart3 } from "lucide-react";
+import { 
+  Tv, 
+  Users, 
+  DollarSign, 
+  Zap, 
+  Shield, 
+  BarChart3, 
+  ArrowRight,
+  Check
+} from "lucide-react";
 
-export default function HomePage() {
+export default function Home() {
   const features = [
     {
       icon: Globe,
@@ -42,27 +52,28 @@ export default function HomePage() {
     <>
       <SEO 
         title="IPTV Business Platform - Launch Your IPTV Service in Minutes"
-        description="Complete platform for IPTV businesses with website builder, customer management, and automated billing system. Start your IPTV business today."
+        description="Complete multi-tenant SaaS platform for IPTV businesses. Manage customers, billing, and subscriptions with built-in automation."
       />
       
-      <div className="min-h-screen">
-        {/* Header */}
-        <header className="border-b bg-card">
-          <div className="container flex h-16 items-center justify-between">
+      <div className="min-h-screen bg-background">
+        {/* Navigation */}
+        <nav className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-primary" />
-              <span className="text-xl font-bold font-heading">IPTV Platform</span>
+              <Tv className="h-6 w-6 text-accent" />
+              <span className="text-xl font-heading font-bold">IPTV Platform</span>
             </div>
-            <nav className="flex items-center gap-6">
-              <Link href="/login" className="text-sm font-medium hover:text-accent">
-                Login
+            <div className="flex items-center gap-4">
+              <ThemeSwitch />
+              <Link href="/login">
+                <Button variant="ghost">Sign In</Button>
               </Link>
-              <Button asChild>
-                <Link href="/signup">Get Started</Link>
-              </Button>
-            </nav>
+              <Link href="/signup">
+                <Button>Get Started</Button>
+              </Link>
+            </div>
           </div>
-        </header>
+        </nav>
 
         {/* Hero Section */}
         <section className="py-20 lg:py-28">

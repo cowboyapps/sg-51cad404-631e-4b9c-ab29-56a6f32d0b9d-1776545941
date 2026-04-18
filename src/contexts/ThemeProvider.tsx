@@ -1,11 +1,10 @@
-"use client";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import * as React from "react";
+type Theme = "dark" | "light";
 
-export function ThemeProvider({
-  children,
-  ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
-}
+const ThemeContext = createContext<{ theme: Theme; setTheme: (theme: Theme) => void }>({
+  theme: "dark",
+  setTheme: () => {},
+});
+
+export const useTheme = () => useContext(ThemeContext);
