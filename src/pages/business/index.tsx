@@ -141,6 +141,10 @@ export default function BusinessDashboard() {
                 <CreditCard className="h-4 w-4 mr-2" />
                 Plans & Pricing
               </Button>
+              <Button variant="outline" size="sm" onClick={() => router.push("/business/page-builder")}>
+                <Package className="h-4 w-4 mr-2" />
+                Page Builder
+              </Button>
               <Button variant="outline" size="sm" onClick={() => router.push("/business/analytics")}>
                 <BarChart3 className="h-4 w-4 mr-2" />
                 Analytics
