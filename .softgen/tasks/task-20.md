@@ -1,6 +1,6 @@
 ---
 title: Customer usage analytics dashboard
-status: todo
+status: done
 priority: high
 type: feature
 tags: [analytics, usage, monitoring]
@@ -13,9 +13,9 @@ position: 20
 Comprehensive usage dashboard for business owners to monitor customer activity: bandwidth usage, concurrent streams, watch time, device connections. Individual customers can see their own usage stats. Helps with plan enforcement and billing.
 
 ## Checklist
-- [ ] Create usage_logs table tracking: customer_id, timestamp, bandwidth_mb, concurrent_streams, device_info
-- [ ] Build business analytics dashboard with charts: total bandwidth, active users, peak usage times
-- [ ] Create per-customer usage detail view for business owners
-- [ ] Add customer usage page showing their own stats and limits
-- [ ] Implement usage alerts for approaching plan limits
-- [ ] Add export capability for usage reports (CSV)
+- [x] Create usage_logs table tracking: customer_id, timestamp, bandwidth_mb, concurrent_streams, device_info
+- [x] Build business analytics dashboard with charts: total bandwidth, active users, peak usage times
+- [x] Create per-customer usage detail view for business owners
+- [x] Add customer usage page showing their own stats and limits
+- [x] Implement usage alerts for approaching plan limits
+- [x] Add export capability for usage reports (CSV)

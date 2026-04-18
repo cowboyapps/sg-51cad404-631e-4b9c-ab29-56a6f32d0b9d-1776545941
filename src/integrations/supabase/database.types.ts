@@ -223,6 +223,47 @@ export type Database = {
           },
         ]
       }
+      page_builder_configs: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          id: string
+          last_published_at: string | null
+          page_name: string
+          page_structure: Json
+          published: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          id?: string
+          last_published_at?: string | null
+          page_name?: string
+          page_structure?: Json
+          published?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          id?: string
+          last_published_at?: string | null
+          page_name?: string
+          page_structure?: Json
+          published?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_builder_configs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       platform_pricing: {
         Row: {
           created_at: string | null
