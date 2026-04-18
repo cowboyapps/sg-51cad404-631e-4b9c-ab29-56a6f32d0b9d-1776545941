@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { MetricCard } from "@/components/MetricCard";
 import { StatusBadge } from "@/components/StatusBadge";
-import { Users, DollarSign, TrendingUp, CreditCard, LogOut, Settings, Package, BarChart3 } from "lucide-react";
+import { Users, DollarSign, TrendingUp, CreditCard, LogOut, Settings, Package, BarChart3, MessageSquare, AlertCircle } from "lucide-react";
 import { authService } from "@/services/authService";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -137,6 +137,10 @@ export default function BusinessDashboard() {
               </div>
             </div>
             <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" onClick={() => router.push("/business/billing")}>
+                <CreditCard className="h-4 w-4 mr-2" />
+                Billing
+              </Button>
               <Button variant="outline" size="sm" onClick={() => router.push("/business/plans")}>
                 <CreditCard className="h-4 w-4 mr-2" />
                 Plans & Pricing
