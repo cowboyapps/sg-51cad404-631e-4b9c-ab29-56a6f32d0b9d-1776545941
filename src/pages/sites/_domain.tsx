@@ -106,7 +106,7 @@ export default function CustomDomainSite() {
       if (!plan) throw new Error("Plan not found");
 
       const currentPeriodEnd = new Date();
-      currentPeriodEnd.setMonth(currentPeriodEnd.getMonth() + (plan.billing_cycle === "yearly" ? 12 : plan.billing_cycle === "quarterly" ? 3 : 1));
+      currentPeriodEnd.setMonth(currentPeriodEnd.getMonth() + (plan.billing_cycle === "yearly" ? 12 : (plan.billing_cycle as string) === "quarterly" ? 3 : 1));
 
       const { error: subError } = await supabase
         .from("subscriptions")

@@ -19,6 +19,9 @@ export type Database = {
         Row: {
           created_at: string | null
           custom_domain: string | null
+          description: string | null
+          email_domain: string | null
+          email_domain_verified: boolean | null
           id: string
           logo_url: string | null
           name: string
@@ -32,6 +35,9 @@ export type Database = {
         Insert: {
           created_at?: string | null
           custom_domain?: string | null
+          description?: string | null
+          email_domain?: string | null
+          email_domain_verified?: boolean | null
           id?: string
           logo_url?: string | null
           name: string
@@ -45,6 +51,9 @@ export type Database = {
         Update: {
           created_at?: string | null
           custom_domain?: string | null
+          description?: string | null
+          email_domain?: string | null
+          email_domain_verified?: boolean | null
           id?: string
           logo_url?: string | null
           name?: string

@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Settings, Globe, ArrowLeft, Save, ExternalLink } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Settings, Globe, ArrowLeft, Save, ExternalLink, Mail } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
@@ -22,6 +23,7 @@ export default function BusinessSettings() {
     slug: "",
     description: "",
     custom_domain: "",
+    email_domain: "",
   });
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -66,6 +68,7 @@ export default function BusinessSettings() {
           slug: data.slug,
           description: data.description || "",
           custom_domain: data.custom_domain || "",
+          email_domain: data.email_domain || "",
         });
       }
     } catch (error) {
@@ -91,6 +94,7 @@ export default function BusinessSettings() {
           slug: formData.slug,
           description: formData.description,
           custom_domain: formData.custom_domain || null,
+          email_domain: formData.email_domain || null,
           updated_at: new Date().toISOString(),
         })
         .eq("id", business.id);
@@ -184,6 +188,78 @@ export default function BusinessSettings() {
                     rows={3}
                   />
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Custom Email Domain */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <CardTitle className="flex items-center gap-2">
+                      <Mail className="h-5 w-5" />
+                      Custom Email Domain
+                    </CardTitle>
+                    <CardDescription>Send automated emails from your own domain</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Email Sending Domain</label>
+                  <Input
+                    value={formData.email_domain}
+                    onChange={(e) => setFormData({ ...formData, email_domain: e.target.value.toLowerCase() })}
+                    placeholder="mg.yourdomain.com"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    We recommend using a subdomain like 'mg' or 'mail' for better deliverability.
+                  </p>
+                </div>
+
+                {formData.email_domain && (
+                  <div className="bg-muted/50 p-4 rounded-lg space-y-3">
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-medium">DNS Configuration Required:</p>
+                        <Badge variant={business?.email_domain_verified ? "default" : "outline"}>
+                          {business?.email_domain_verified ? "Verified" : "Pending Verification"}
+                        </Badge>
+                      </div>
+                      <div className="space-y-2 text-xs font-mono bg-background p-3 rounded border">
+                        <div className="flex items-start gap-2">
+                          <span className="text-muted-foreground w-16">Type:</span>
+                          <span>TXT</span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <span className="text-muted-foreground w-16">Name:</span>
+                          <span>{formData.email_domain}</span>
+                        </div>
+                        <div className="flex items-start gap-2 break-all">
+                          <span className="text-muted-foreground w-16">Value:</span>
+                          <span>v=spf1 include:mailgun.org ~all</span>
+                        </div>
+                      </div>
+                      <div className="space-y-2 text-xs font-mono bg-background p-3 rounded border mt-2">
+                        <div className="flex items-start gap-2">
+                          <span className="text-muted-foreground w-16">Type:</span>
+                          <span>TXT</span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <span className="text-muted-foreground w-16">Name:</span>
+                          <span>mx._domainkey.{formData.email_domain}</span>
+                        </div>
+                        <div className="flex items-start gap-2 break-all">
+                          <span className="text-muted-foreground w-16">Value:</span>
+                          <span>k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A...</span>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Add these TXT records to your DNS provider to authorize us to send emails on your behalf.
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
 
