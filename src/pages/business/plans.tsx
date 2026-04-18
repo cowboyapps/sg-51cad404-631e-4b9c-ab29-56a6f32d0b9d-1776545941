@@ -105,7 +105,7 @@ export default function PlansPage() {
       description: plan.description || "",
       price: plan.price.toString(),
       billing_cycle: plan.billing_cycle,
-      features: plan.features.join("\n"),
+      features: ((plan.features as string[]) || []).join("\n"),
       is_active: plan.is_active,
     });
     setShowForm(true);
@@ -316,7 +316,7 @@ export default function PlansPage() {
                           <p className="text-sm text-muted-foreground">{plan.description}</p>
                         )}
                         <div className="space-y-2">
-                          {plan.features.map((feature, idx) => (
+                          {((plan.features as string[]) || []).map((feature, idx) => (
                             <div key={idx} className="flex items-start gap-2 text-sm">
                               <Check className="h-4 w-4 text-accent mt-0.5 shrink-0" />
                               <span>{feature}</span>

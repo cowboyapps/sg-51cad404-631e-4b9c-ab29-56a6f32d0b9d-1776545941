@@ -4,56 +4,38 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
 @layer base {
   :root {
-    --background: 40 56% 97%;
-    --foreground: 222 47% 15%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 15%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 15%;
-    --primary: 222 84% 11%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 13% 91%;
-    --secondary-foreground: 222 47% 15%;
-    --muted: 220 13% 91%;
-    --muted-foreground: 222 20% 45%;
-    --accent: 187 94% 43%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 222 84% 11%;
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222 47% 11%;
-    --foreground: 0 0% 95%;
-    --card: 222 47% 15%;
-    --card-foreground: 0 0% 95%;
-    --popover: 222 47% 15%;
-    --popover-foreground: 0 0% 95%;
+    /* Sleek, deep dark mode everywhere */
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
+    
     --primary: 187 94% 43%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 222 47% 20%;
-    --secondary-foreground: 0 0% 95%;
-    --muted: 222 47% 20%;
-    --muted-foreground: 220 13% 70%;
+    --primary-foreground: 240 10% 4%;
+    
+    --secondary: 240 10% 12%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 240 10% 12%;
+    --muted-foreground: 240 5% 65%;
+    
     --accent: 187 94% 43%;
-    --accent-foreground: 222 47% 11%;
+    --accent-foreground: 240 10% 4%;
+    
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 95%;
-    --border: 222 47% 20%;
-    --input: 222 47% 20%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 240 10% 12%;
+    --input: 240 10% 12%;
     --ring: 187 94% 43%;
+    
+    --radius: 0.5rem;
   }
 }
 
@@ -62,15 +44,19 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans antialiased selection:bg-primary/30;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+    @apply font-heading tracking-tight;
   }
 }
 
-@layer components {
-  .container {
-    @apply mx-auto px-4 md:px-6 lg:px-8 max-w-7xl w-full;
-  }
+/* Make browser auto-fill inputs match dark theme */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px hsl(var(--background)) inset !important;
+    -webkit-text-fill-color: hsl(var(--foreground)) !important;
+    transition: background-color 5000s ease-in-out 0s;
 }

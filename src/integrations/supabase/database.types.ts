@@ -275,6 +275,10 @@ export type Database = {
           current_period_start: string | null
           customer_id: string
           id: string
+          iptv_mac_address: string | null
+          iptv_password: string | null
+          iptv_server_url: string | null
+          iptv_username: string | null
           plan_id: string
           status: Database["public"]["Enums"]["subscription_status"] | null
           trial_end: string | null
@@ -286,6 +290,10 @@ export type Database = {
           current_period_start?: string | null
           customer_id: string
           id?: string
+          iptv_mac_address?: string | null
+          iptv_password?: string | null
+          iptv_server_url?: string | null
+          iptv_username?: string | null
           plan_id: string
           status?: Database["public"]["Enums"]["subscription_status"] | null
           trial_end?: string | null
@@ -297,6 +305,10 @@ export type Database = {
           current_period_start?: string | null
           customer_id?: string
           id?: string
+          iptv_mac_address?: string | null
+          iptv_password?: string | null
+          iptv_server_url?: string | null
+          iptv_username?: string | null
           plan_id?: string
           status?: Database["public"]["Enums"]["subscription_status"] | null
           trial_end?: string | null
