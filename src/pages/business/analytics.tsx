@@ -8,11 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, TrendingUp, Users, Database, Activity, Download } from "lucide-react";
+import { ArrowLeft, TrendingUp, Users, Database as DatabaseIcon, Activity, Download } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
 
 type UsageLog = Database["public"]["Tables"]["usage_logs"]["Row"];
-type Customer = Database["public"]["Tables"]["customers"]["Row"];
+type Customer = Database["public"]["Tables"]["customers"]["Row"] & {
+  profiles?: { full_name: string | null; email: string | null } | null;
+};
 
 export default function Analytics() {
   const router = useRouter();
@@ -78,13 +80,13 @@ export default function Analytics() {
       // Load customers
       const { data: customerData, error: customersError } = await supabase
         .from("customers")
-        .select("*")
+        .select("*, profiles!customers_profile_id_fkey(full_name, email)")
         .eq("business_id", businessId);
 
       if (customersError) throw customersError;
 
       setUsageData(logs || []);
-      setCustomers(customerData || []);
+      setCustomers((customerData as any) || []);
 
       // Calculate stats
       const totalBandwidth = (logs || []).reduce((sum, log) => sum + Number(log.bandwidth_mb || 0), 0);
@@ -123,7 +125,7 @@ export default function Analytics() {
     const csvData = customers.map(customer => {
       const usage = getCustomerUsage(customer.id);
       return {
-        customer: customer.full_name || customer.email,
+        customer: customer.profiles?.full_name || customer.profiles?.email || "Unknown",
         bandwidth_gb: usage.bandwidth,
         watch_hours: (usage.watchTime / 60).toFixed(1),
         peak_streams: usage.peakStreams,
@@ -198,7 +200,7 @@ export default function Analytics() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">Total Bandwidth</CardTitle>
-                <Database className="h-4 w-4 text-primary" />
+                <DatabaseIcon className="h-4 w-4 text-primary" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{stats.totalBandwidth} GB</div>
@@ -265,8 +267,8 @@ export default function Analytics() {
                         <tr key={customer.id} className="hover:bg-muted/50">
                           <td className="py-4">
                             <div>
-                              <div className="font-medium">{customer.full_name || "N/A"}</div>
-                              <div className="text-sm text-muted-foreground">{customer.email}</div>
+                              <div className="font-medium">{customer.profiles?.full_name || "N/A"}</div>
+                              <div className="text-sm text-muted-foreground">{customer.profiles?.email || "No email"}</div>
                             </div>
                           </td>
                           <td className="py-4 font-mono">{usage.bandwidth}</td>

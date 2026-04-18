@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SEO } from "@/components/SEO";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Tv, CreditCard, Settings, LogOut, Copy, Check, Server, Activity } from "lucide-react";
 import { authService } from "@/services/authService";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -13,12 +14,15 @@ type Subscription = Database["public"]["Tables"]["subscriptions"]["Row"] & {
   subscription_plans: { name: string; price: number; billing_cycle: string } | null;
 };
 
+type Invoice = Database["public"]["Tables"]["invoices"]["Row"];
+type Ticket = Database["public"]["Tables"]["support_tickets"]["Row"];
+
 type Customer = Database["public"]["Tables"]["customers"]["Row"] & {
   subscriptions: Subscription[];
   businesses: { name: string; logo_url: string | null } | null;
 };
 
-export default function CustomerPortal() {
+export default function CustomerDashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [customer, setCustomer] = useState<Customer | null>(null);
@@ -57,21 +61,20 @@ export default function CustomerPortal() {
     try {
       const { data: customerData, error: customerError } = await supabase
         .from("customers")
-        .select("*")
-        .eq("user_id", userId)
+        .select("*, businesses(name, logo_url)")
+        .eq("profile_id", userId)
         .single();
 
       if (customerError) throw customerError;
-      setCustomer(customerData);
 
       if (customerData) {
         const [subResult, invoicesResult, ticketsResult, usageResult] = await Promise.all([
           supabase
             .from("subscriptions")
-            .select("*")
+            .select("*, subscription_plans(name, price, billing_cycle)")
             .eq("customer_id", customerData.id)
             .eq("status", "active")
-            .single(),
+            .maybeSingle(),
           supabase
             .from("invoices")
             .select("*")
@@ -79,7 +82,7 @@ export default function CustomerPortal() {
             .order("created_at", { ascending: false })
             .limit(5),
           supabase
-            .from("tickets")
+            .from("support_tickets")
             .select("*")
             .eq("customer_id", customerData.id)
             .order("created_at", { ascending: false })
@@ -91,10 +94,16 @@ export default function CustomerPortal() {
             .gte("logged_at", new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
         ]);
 
-        if (subResult.data) setSubscription(subResult.data);
+        if (subResult.data) setSubscription(subResult.data as any);
         if (invoicesResult.data) setInvoices(invoicesResult.data);
         if (ticketsResult.data) setTickets(ticketsResult.data);
         
+        setCustomer({
+          ...customerData,
+          businesses: Array.isArray(customerData.businesses) ? customerData.businesses[0] : customerData.businesses,
+          subscriptions: subResult.data ? [subResult.data as any] : []
+        } as Customer);
+
         if (usageResult.data) {
           const logs = usageResult.data;
           const totalBandwidth = logs.reduce((sum, log) => sum + Number(log.bandwidth_mb || 0), 0);
