@@ -1,4 +1,4 @@
- 
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 export type Json =
   | string
   | number
@@ -331,6 +331,96 @@ export type Database = {
           },
         ]
       }
+      support_tickets: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          customer_id: string
+          id: string
+          priority: Database["public"]["Enums"]["ticket_priority"] | null
+          status: Database["public"]["Enums"]["ticket_status"] | null
+          subject: string
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          customer_id: string
+          id?: string
+          priority?: Database["public"]["Enums"]["ticket_priority"] | null
+          status?: Database["public"]["Enums"]["ticket_status"] | null
+          subject: string
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          customer_id?: string
+          id?: string
+          priority?: Database["public"]["Enums"]["ticket_priority"] | null
+          status?: Database["public"]["Enums"]["ticket_status"] | null
+          subject?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_tickets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_tickets_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_messages: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_from_customer: boolean | null
+          message: string
+          sender_id: string
+          ticket_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_from_customer?: boolean | null
+          message: string
+          sender_id: string
+          ticket_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_from_customer?: boolean | null
+          message?: string
+          sender_id?: string
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_messages_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -343,6 +433,8 @@ export type Database = {
       business_status: "active" | "suspended" | "trial"
       invoice_status: "paid" | "pending" | "overdue" | "cancelled"
       subscription_status: "active" | "past_due" | "cancelled" | "trial"
+      ticket_priority: "low" | "medium" | "high" | "urgent"
+      ticket_status: "open" | "in_progress" | "resolved" | "closed"
       user_role: "master_admin" | "business_owner" | "customer"
     }
     CompositeTypes: {
@@ -475,6 +567,8 @@ export const Constants = {
       business_status: ["active", "suspended", "trial"],
       invoice_status: ["paid", "pending", "overdue", "cancelled"],
       subscription_status: ["active", "past_due", "cancelled", "trial"],
+      ticket_priority: ["low", "medium", "high", "urgent"],
+      ticket_status: ["open", "in_progress", "resolved", "closed"],
       user_role: ["master_admin", "business_owner", "customer"],
     },
   },
