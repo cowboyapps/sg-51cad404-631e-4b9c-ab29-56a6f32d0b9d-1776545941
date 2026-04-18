@@ -426,7 +426,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_iptv_password: { Args: never; Returns: string }
+      generate_iptv_username: { Args: never; Returns: string }
     }
     Enums: {
       billing_cycle: "monthly" | "yearly"
