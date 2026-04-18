@@ -17,6 +17,18 @@ export const businessService = {
     return data || [];
   },
 
+  async getBusinessById(id: string) {
+    const { data, error } = await supabase
+      .from("businesses")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    console.log("getBusinessById:", { id, data, error });
+    if (error) throw error;
+    return data;
+  },
+
   async getBusinessBySlug(slug: string) {
     const { data, error } = await supabase
       .from("businesses")

@@ -5,6 +5,7 @@ type StatusVariant = "active" | "suspended" | "trial" | "pending" | "paid" | "ov
 
 interface StatusBadgeProps {
   status: StatusVariant;
+  type?: "business" | "customer" | "invoice";
   children?: ReactNode;
 }
 
