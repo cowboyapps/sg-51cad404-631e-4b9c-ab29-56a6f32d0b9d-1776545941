@@ -1,4 +1,4 @@
-<![CDATA[import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/integrations/supabase/client";
 import { SEO } from "@/components/SEO";
@@ -264,4 +264,3 @@ export default function BillingPage() {
     </>
   );
 }
-</![CDATA[>

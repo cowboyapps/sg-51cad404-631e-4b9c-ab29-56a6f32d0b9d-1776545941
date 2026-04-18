@@ -1,4 +1,4 @@
-<![CDATA[import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
 type Invoice = Database["public"]["Tables"]["invoices"]["Row"];
@@ -104,4 +104,3 @@ export const invoiceService = {
     });
   },
 };
-</![CDATA[>
