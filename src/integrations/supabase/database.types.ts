@@ -18,6 +18,7 @@ export type Database = {
       businesses: {
         Row: {
           created_at: string | null
+          current_period_end: string | null
           custom_domain: string | null
           custom_pricing: Json | null
           description: string | null
@@ -34,16 +35,22 @@ export type Database = {
           name: string
           owner_id: string
           platform_tier_id: string | null
+          pricing_tier_id: string | null
           primary_color: string | null
           seo_settings: Json | null
           site_theme: Json | null
           slug: string
           status: Database["public"]["Enums"]["business_status"] | null
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          subscription_status: string | null
           support_email: string | null
+          trial_end: string | null
           updated_at: string | null
         }
         Insert: {
           created_at?: string | null
+          current_period_end?: string | null
           custom_domain?: string | null
           custom_pricing?: Json | null
           description?: string | null
@@ -60,16 +67,22 @@ export type Database = {
           name: string
           owner_id: string
           platform_tier_id?: string | null
+          pricing_tier_id?: string | null
           primary_color?: string | null
           seo_settings?: Json | null
           site_theme?: Json | null
           slug: string
           status?: Database["public"]["Enums"]["business_status"] | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          subscription_status?: string | null
           support_email?: string | null
+          trial_end?: string | null
           updated_at?: string | null
         }
         Update: {
           created_at?: string | null
+          current_period_end?: string | null
           custom_domain?: string | null
           custom_pricing?: Json | null
           description?: string | null
@@ -86,12 +99,17 @@ export type Database = {
           name?: string
           owner_id?: string
           platform_tier_id?: string | null
+          pricing_tier_id?: string | null
           primary_color?: string | null
           seo_settings?: Json | null
           site_theme?: Json | null
           slug?: string
           status?: Database["public"]["Enums"]["business_status"] | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          subscription_status?: string | null
           support_email?: string | null
+          trial_end?: string | null
           updated_at?: string | null
         }
         Relationships: [
@@ -105,6 +123,13 @@ export type Database = {
           {
             foreignKeyName: "businesses_platform_tier_id_fkey"
             columns: ["platform_tier_id"]
+            isOneToOne: false
+            referencedRelation: "platform_pricing"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "businesses_pricing_tier_id_fkey"
+            columns: ["pricing_tier_id"]
             isOneToOne: false
             referencedRelation: "platform_pricing"
             referencedColumns: ["id"]
@@ -257,6 +282,50 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "page_builder_configs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payment_history: {
+        Row: {
+          amount_paid: number
+          business_id: string
+          created_at: string | null
+          currency: string | null
+          id: string
+          invoice_url: string | null
+          paid_at: string | null
+          status: string
+          stripe_invoice_id: string
+        }
+        Insert: {
+          amount_paid: number
+          business_id: string
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          invoice_url?: string | null
+          paid_at?: string | null
+          status: string
+          stripe_invoice_id: string
+        }
+        Update: {
+          amount_paid?: number
+          business_id?: string
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          invoice_url?: string | null
+          paid_at?: string | null
+          status?: string
+          stripe_invoice_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_history_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses"
