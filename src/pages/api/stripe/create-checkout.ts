@@ -20,7 +20,7 @@ export default async function handler(
     // Get business details
     const { data: business, error } = await supabase
       .from("businesses")
-      .select("id, business_name, slug, profiles!businesses_owner_id_fkey(email)")
+      .select("id, name, slug, profiles!businesses_owner_id_fkey(email)")
       .eq("id", businessId)
       .single();
 
@@ -35,7 +35,7 @@ export default async function handler(
       business.id,
       priceId,
       email,
-      business.business_name
+      business.name
     );
 
     return res.status(200).json({ url: checkoutUrl });
