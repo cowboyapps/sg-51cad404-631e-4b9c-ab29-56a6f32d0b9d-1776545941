@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { MetricCard } from "@/components/MetricCard";
 import { StatusBadge } from "@/components/StatusBadge";
-import { Users, DollarSign, TrendingUp, CreditCard, LogOut, Settings } from "lucide-react";
+import { Users, DollarSign, TrendingUp, CreditCard, LogOut, Settings, Package } from "lucide-react";
 import { authService } from "@/services/authService";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -180,24 +180,29 @@ export default function BusinessDashboard() {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push("/business/customers")}>
-              <CardHeader>
-                <CardTitle className="text-lg">Manage Customers</CardTitle>
-                <CardDescription>View and manage all your customers</CardDescription>
-              </CardHeader>
+          <div className="grid md:grid-cols-3 gap-4">
+            <Card className="hover:border-accent/50 transition-colors cursor-pointer" onClick={() => router.push("/business/customers")}>
+              <CardContent className="pt-6">
+                <Users className="h-8 w-8 text-accent mb-3" />
+                <h3 className="font-heading font-semibold mb-1">Manage Customers</h3>
+                <p className="text-sm text-muted-foreground">View and manage subscriber accounts</p>
+              </CardContent>
             </Card>
-            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push("/business/plans")}>
-              <CardHeader>
-                <CardTitle className="text-lg">Subscription Plans</CardTitle>
-                <CardDescription>Configure your pricing and packages</CardDescription>
-              </CardHeader>
+
+            <Card className="hover:border-accent/50 transition-colors cursor-pointer" onClick={() => router.push("/business/plans")}>
+              <CardContent className="pt-6">
+                <Package className="h-8 w-8 text-accent mb-3" />
+                <h3 className="font-heading font-semibold mb-1">Subscription Plans</h3>
+                <p className="text-sm text-muted-foreground">Configure pricing packages</p>
+              </CardContent>
             </Card>
-            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push("/business/website")}>
-              <CardHeader>
-                <CardTitle className="text-lg">Website Builder</CardTitle>
-                <CardDescription>Customize your customer-facing site</CardDescription>
-              </CardHeader>
+
+            <Card className="hover:border-accent/50 transition-colors cursor-pointer" onClick={() => router.push("/business/billing")}>
+              <CardContent className="pt-6">
+                <CreditCard className="h-8 w-8 text-accent mb-3" />
+                <h3 className="font-heading font-semibold mb-1">Billing & Invoices</h3>
+                <p className="text-sm text-muted-foreground">Track payments and revenue</p>
+              </CardContent>
             </Card>
           </div>
 

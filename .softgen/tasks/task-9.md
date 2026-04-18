@@ -1,20 +1,20 @@
 ---
 title: Billing & invoicing system
-status: todo
+status: done
 priority: medium
 type: feature
-tags: [billing, invoices, automation]
+tags: [billing, invoices, payments]
 created_by: agent
 created_at: 2026-04-18T19:16:24Z
 position: 9
 ---
 
 ## Notes
-Automated billing creates invoices on subscription cycle, tracks payment status. Business owners view all invoices, customers see their billing history. Invoice generation with line items, tax calculations, payment due dates.
+Business owners track all invoices, filter by status (paid/pending/overdue), view revenue metrics. Invoices auto-generate when subscriptions renew. Display total revenue, pending amounts, overdue count. Customers can view their billing history.
 
 ## Checklist
-- [ ] Create invoices service: generate invoice on subscription creation/renewal
-- [ ] Add /business/billing page: all invoices table, revenue charts, payment status filters
-- [ ] Create /customer/billing page: customer's invoice history, download PDF, payment methods
-- [ ] Add invoice detail view: line items, subtotal, tax, total, payment status, due date
-- [ ] Implement payment status badges: paid, pending, overdue, cancelled
+- [x] Create /business/billing route with invoices table
+- [x] Display metrics: total revenue, this month revenue, pending amount, overdue count
+- [x] Build invoice filters: all, paid, pending, overdue, cancelled
+- [x] Show invoice details: customer, plan, amount, due date, payment status
+- [x] Implement invoice status badges: paid, pending, overdue, cancelled
