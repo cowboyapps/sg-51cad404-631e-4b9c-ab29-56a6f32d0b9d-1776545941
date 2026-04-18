@@ -11,7 +11,9 @@ import {
   Shield, 
   BarChart3, 
   ArrowRight,
-  Check
+  Check,
+  Globe,
+  Settings
 } from "lucide-react";
 
 export default function Home() {
