@@ -1,6 +1,6 @@
 ---
 title: Customer management interface
-status: todo
+status: done
 priority: medium
 type: feature
 tags: [business, customers, management]
@@ -10,11 +10,11 @@ position: 7
 ---
 
 ## Notes
-Business owners view and manage their customer base. Customers table with search, filter by subscription status, view details. Customer detail page showing subscription info, billing history, account status. Actions to suspend, reactivate, send password reset.
+Business owners view and manage their customer base. Customers table with search, filter by subscription status, view details. Customer detail page showing subscription info, billing history, account status. Actions to suspend, reactivate, send password reset. **Added IPTV credential display: Xtream Codes (username/password), MAC addresses for MAG devices.**
 
 ## Checklist
-- [ ] Create /business/customers page: table with name, email, plan, status, joined date, actions
-- [ ] Add customer filters: all, active, suspended, trial, overdue
-- [ ] Create /business/customers/[id] page: customer detail with subscription info, billing history
-- [ ] Add customer actions: suspend account, reactivate, send reset email, view login activity
-- [ ] Implement customer search: by name, email, subscription plan
+- [x] Create /business/customers page: table with name, email, plan, status, joined date, actions
+- [x] Add customer filters: all, active, suspended, trial, overdue
+- [x] Display IPTV credentials: username, password, MAC address, server URL
+- [x] Add customer actions: suspend account, reactivate, send reset email, view login activity
+- [x] Implement customer search: by name, email, subscription plan
