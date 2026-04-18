@@ -18,33 +18,37 @@ export default function LoginPage() {
     password: "",
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      await authService.signIn(formData.email, formData.password);
+      const { data, error } = await authService.signIn(email, password);
+      
+      if (error) throw error;
+      if (!data.user) throw new Error("No user returned");
 
-      // Get user profile to determine role
+      // Get user profile to check role
       const { data: profile } = await supabase
         .from("profiles")
-        .select("role")
+        .select("role, business_id")
+        .eq("id", data.user.id)
         .single();
 
-      console.log("Login profile:", profile);
-
       // Redirect based on role
-      if (profile?.role === "master_admin") {
+      if (profile?.role === "platform_admin") {
         router.push("/admin");
       } else if (profile?.role === "business_owner") {
         router.push("/business");
-      } else {
+      } else if (profile?.role === "customer") {
         router.push("/customer");
+      } else {
+        router.push("/");
       }
-    } catch (err: any) {
-      console.error("Login error:", err);
-      setError(err.message || "Invalid email or password");
+    } catch (error: any) {
+      console.error("Login error:", error);
+      setError(error.message || "Invalid credentials");
     } finally {
       setLoading(false);
     }
@@ -67,7 +71,7 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
