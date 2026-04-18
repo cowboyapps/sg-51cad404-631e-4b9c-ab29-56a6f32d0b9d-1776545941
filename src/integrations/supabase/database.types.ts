@@ -20,6 +20,11 @@ export type Database = {
           created_at: string | null
           custom_domain: string | null
           description: string | null
+          domain_auto_renew: boolean | null
+          domain_managed_by_platform: boolean | null
+          domain_purchase_price: number | null
+          domain_registrar_id: string | null
+          domain_registration_expires: string | null
           email_domain: string | null
           email_domain_verified: boolean | null
           id: string
@@ -36,6 +41,11 @@ export type Database = {
           created_at?: string | null
           custom_domain?: string | null
           description?: string | null
+          domain_auto_renew?: boolean | null
+          domain_managed_by_platform?: boolean | null
+          domain_purchase_price?: number | null
+          domain_registrar_id?: string | null
+          domain_registration_expires?: string | null
           email_domain?: string | null
           email_domain_verified?: boolean | null
           id?: string
@@ -52,6 +62,11 @@ export type Database = {
           created_at?: string | null
           custom_domain?: string | null
           description?: string | null
+          domain_auto_renew?: boolean | null
+          domain_managed_by_platform?: boolean | null
+          domain_purchase_price?: number | null
+          domain_registrar_id?: string | null
+          domain_registration_expires?: string | null
           email_domain?: string | null
           email_domain_verified?: boolean | null
           id?: string
