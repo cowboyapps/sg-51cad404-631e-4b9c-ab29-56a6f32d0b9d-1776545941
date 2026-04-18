@@ -34,7 +34,7 @@ export default function BusinessDetailPage() {
   }, [id]);
 
   const checkAuth = async () => {
-    const session = await authService.getSession();
+    const session = await authService.getCurrentSession();
     if (!session) {
       router.push("/login");
       return;

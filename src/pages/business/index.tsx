@@ -32,7 +32,7 @@ export default function BusinessDashboard() {
   }, []);
 
   const checkAuth = async () => {
-    const session = await authService.getSession();
+    const session = await authService.getCurrentSession();
     if (!session) {
       router.push("/login");
       return;
@@ -86,7 +86,7 @@ export default function BusinessDashboard() {
       // Calculate metrics (mock data for now - will connect to real subscriptions later)
       setMetrics({
         totalCustomers: customerList.length,
-        activeSubscriptions: customerList.filter(c => c.status === "active").length,
+        activeSubscriptions: customerList.filter(c => c.subscription_status === "active").length,
         monthlyRevenue: 2450,
         trialExpiring: 3,
       });
@@ -237,7 +237,7 @@ export default function BusinessDashboard() {
                           {customer.profiles?.email || "No email"}
                         </td>
                         <td className="py-4">
-                          <StatusBadge status={customer.status} type="customer" />
+                          <StatusBadge status={customer.subscription_status} type="customer" />
                         </td>
                         <td className="py-4 text-sm text-muted-foreground">
                           {new Date(customer.created_at).toLocaleDateString()}
