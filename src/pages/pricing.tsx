@@ -103,7 +103,7 @@ export default function Pricing() {
           ) : (
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {tiers.map((tier, index) => {
-                const features = Array.isArray(tier.features) ? tier.features : [];
+                const features = Array.isArray(tier.features) ? (tier.features as string[]) : [];
                 const isPopular = index === 1; // Middle tier is popular
 
                 return (

@@ -6,14 +6,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { MetricCard } from "@/components/MetricCard";
 import { StatusBadge } from "@/components/StatusBadge";
-import { Building2, DollarSign, Users, TrendingUp, LogOut } from "lucide-react";
 import { authService } from "@/services/authService";
 import type { Database } from "@/integrations/supabase/types";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { 
-  Users, Building2, TrendingUp, DollarSign, 
+  Building2, DollarSign, Users, TrendingUp, LogOut,
   ArrowLeft, Eye, Trash2, Edit, Plus, Save, X,
   CheckCircle, XCircle, DollarSign as PricingIcon
 } from "lucide-react";
