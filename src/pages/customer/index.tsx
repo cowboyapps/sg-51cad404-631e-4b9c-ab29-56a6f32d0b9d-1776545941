@@ -56,7 +56,7 @@ export default function CustomerPortal() {
         ),
         businesses(name, logo_url)
       `)
-      .eq("user_id", userId)
+      .eq("profile_id", userId)
       .maybeSingle();
 
     if (error) {
