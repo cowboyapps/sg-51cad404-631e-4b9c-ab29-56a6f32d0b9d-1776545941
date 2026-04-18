@@ -71,7 +71,7 @@ export default function Billing() {
         setBusiness(businessResult.data);
         
         // Find current tier
-        const tier = tiersResult.data?.find(t => t.tier_name === businessResult.data.pricing_tier);
+        const tier = tiersResult.data?.find(t => t.id === businessResult.data.pricing_tier_id);
         setCurrentTier(tier);
       }
 
