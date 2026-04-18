@@ -29,9 +29,7 @@ export default function SignupPage() {
 
     try {
       // 1. Sign up user
-      const { user } = await authService.signUp(formData.email, formData.password, {
-        full_name: formData.fullName,
-      });
+      const { user } = await authService.signUp(formData.email, formData.password);
 
       if (!user) throw new Error("User creation failed");
 
