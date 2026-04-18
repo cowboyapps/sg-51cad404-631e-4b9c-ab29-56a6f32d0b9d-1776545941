@@ -25,6 +25,7 @@ export type Database = {
           domain_purchase_price: number | null
           domain_registrar_id: string | null
           domain_registration_expires: string | null
+          email_branding: Json | null
           email_domain: string | null
           email_domain_verified: boolean | null
           id: string
@@ -32,6 +33,8 @@ export type Database = {
           name: string
           owner_id: string
           primary_color: string | null
+          seo_settings: Json | null
+          site_theme: Json | null
           slug: string
           status: Database["public"]["Enums"]["business_status"] | null
           support_email: string | null
@@ -46,6 +49,7 @@ export type Database = {
           domain_purchase_price?: number | null
           domain_registrar_id?: string | null
           domain_registration_expires?: string | null
+          email_branding?: Json | null
           email_domain?: string | null
           email_domain_verified?: boolean | null
           id?: string
@@ -53,6 +57,8 @@ export type Database = {
           name: string
           owner_id: string
           primary_color?: string | null
+          seo_settings?: Json | null
+          site_theme?: Json | null
           slug: string
           status?: Database["public"]["Enums"]["business_status"] | null
           support_email?: string | null
@@ -67,6 +73,7 @@ export type Database = {
           domain_purchase_price?: number | null
           domain_registrar_id?: string | null
           domain_registration_expires?: string | null
+          email_branding?: Json | null
           email_domain?: string | null
           email_domain_verified?: boolean | null
           id?: string
@@ -74,6 +81,8 @@ export type Database = {
           name?: string
           owner_id?: string
           primary_color?: string | null
+          seo_settings?: Json | null
+          site_theme?: Json | null
           slug?: string
           status?: Database["public"]["Enums"]["business_status"] | null
           support_email?: string | null
