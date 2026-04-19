@@ -313,47 +313,50 @@ export default function BusinessSettings() {
       />
       
       <div className="min-h-screen bg-background">
-        <main className="max-w-5xl mx-auto px-4 py-8">
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <div className="mb-6">
             <Button
               variant="ghost"
+              size="sm"
               onClick={() => router.push("/business")}
-              className="mb-4"
+              className="mb-4 -ml-2"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Dashboard
+              Back
             </Button>
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-heading font-bold flex items-center gap-2">
-                  <Settings className="h-8 w-8" />
+                <h1 className="text-2xl sm:text-3xl font-heading font-bold flex items-center gap-2">
+                  <Settings className="h-6 w-6 sm:h-8 sm:w-8" />
                   Business Settings
                 </h1>
-                <p className="text-muted-foreground mt-1">Manage your IPTV business configuration</p>
+                <p className="text-sm sm:text-base text-muted-foreground mt-1">Manage your IPTV business configuration</p>
               </div>
             </div>
           </div>
 
           {error && (
-            <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-lg mb-6">
+            <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-lg mb-6 text-sm">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="bg-accent/10 border border-accent text-accent px-4 py-3 rounded-lg mb-6">
+            <div className="bg-accent/10 border border-accent text-accent px-4 py-3 rounded-lg mb-6 text-sm">
               {success}
             </div>
           )}
 
           <Tabs defaultValue="basic" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="basic">Basic Info</TabsTrigger>
-              <TabsTrigger value="branding">Email Branding</TabsTrigger>
-              <TabsTrigger value="seo">SEO Settings</TabsTrigger>
-              <TabsTrigger value="theme">Site Theme</TabsTrigger>
-              <TabsTrigger value="domain">Domain & Email</TabsTrigger>
-            </TabsList>
+            <div className="overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+              <TabsList className="inline-flex w-max sm:w-full min-w-full h-auto p-1 bg-muted/50">
+                <TabsTrigger value="basic" className="flex-1">Basic Info</TabsTrigger>
+                <TabsTrigger value="branding" className="flex-1">Email Branding</TabsTrigger>
+                <TabsTrigger value="seo" className="flex-1">SEO Settings</TabsTrigger>
+                <TabsTrigger value="theme" className="flex-1">Site Theme</TabsTrigger>
+                <TabsTrigger value="domain" className="flex-1">Domain & Email</TabsTrigger>
+              </TabsList>
+            </div>
 
             {/* Basic Information Tab */}
             <TabsContent value="basic" className="space-y-6">
@@ -706,22 +709,22 @@ export default function BusinessSettings() {
                         <button
                           key={option.value}
                           onClick={() => setSiteTheme({ ...siteTheme, layout_style: option.value })}
-                          className={`p-4 rounded-lg border-2 transition-colors ${
+                          className={`p-3 sm:p-4 rounded-lg border-2 transition-colors text-left sm:text-center ${
                             siteTheme.layout_style === option.value
                               ? "border-accent bg-accent/10"
                               : "border-border hover:border-accent/50"
                           }`}
                         >
-                          <p className="font-medium">{option.label}</p>
+                          <p className="font-medium text-sm">{option.label}</p>
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  <div className="bg-muted/30 p-4 rounded-lg border">
-                    <h4 className="font-medium mb-3">Theme Preview</h4>
+                  <div className="bg-muted/30 p-3 sm:p-4 rounded-lg border">
+                    <h4 className="font-medium mb-3 text-sm sm:text-base">Theme Preview</h4>
                     <div 
-                      className="p-6 rounded-lg border"
+                      className="p-4 sm:p-6 rounded-lg border overflow-hidden"
                       style={{ 
                         backgroundColor: siteTheme.background_color,
                         color: "#FFFFFF"
@@ -853,10 +856,10 @@ export default function BusinessSettings() {
                     </TabsList>
 
                     {/* Domain Marketplace Tab */}
-                    <TabsContent value="marketplace" className="space-y-4">
-                      <div className="bg-accent/5 border border-accent/20 p-4 rounded-lg">
-                        <h4 className="font-medium mb-2">✨ Instant Setup - No Configuration Required</h4>
-                        <p className="text-sm text-muted-foreground">
+                    <TabsContent value="marketplace" className="space-y-4 pt-4">
+                      <div className="bg-accent/5 border border-accent/20 p-3 sm:p-4 rounded-lg">
+                        <h4 className="font-medium mb-1 sm:mb-2 text-sm sm:text-base">✨ Instant Setup - No Configuration Required</h4>
+                        <p className="text-xs sm:text-sm text-muted-foreground">
                           Purchasing through our marketplace automatically configures DNS and email settings. Your site will be live within minutes!
                         </p>
                       </div>
@@ -979,22 +982,22 @@ export default function BusinessSettings() {
                           )}
 
                           <div className="bg-muted/30 p-4 rounded-lg space-y-2">
-                            <h4 className="font-medium">What's Included:</h4>
-                            <ul className="text-sm space-y-1 text-muted-foreground">
+                            <h4 className="font-medium text-sm">What's Included:</h4>
+                            <ul className="text-xs sm:text-sm space-y-1 text-muted-foreground">
                               <li className="flex items-start gap-2">
-                                <CheckCircle2 className="h-4 w-4 text-accent mt-0.5" />
+                                <CheckCircle2 className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
                                 <span>Automatic DNS configuration for your site</span>
                               </li>
                               <li className="flex items-start gap-2">
-                                <CheckCircle2 className="h-4 w-4 text-accent mt-0.5" />
+                                <CheckCircle2 className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
                                 <span>Email domain setup with SPF/DKIM verification</span>
                               </li>
                               <li className="flex items-start gap-2">
-                                <CheckCircle2 className="h-4 w-4 text-accent mt-0.5" />
+                                <CheckCircle2 className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
                                 <span>Auto-renewal to prevent service interruption</span>
                               </li>
                               <li className="flex items-start gap-2">
-                                <CheckCircle2 className="h-4 w-4 text-accent mt-0.5" />
+                                <CheckCircle2 className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
                                 <span>Free SSL certificate included</span>
                               </li>
                             </ul>
@@ -1052,14 +1055,15 @@ export default function BusinessSettings() {
           </Tabs>
 
           {/* Save Button */}
-          <div className="flex justify-end gap-3 mt-6">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-8 pb-8">
             <Button
               variant="outline"
               onClick={() => router.push("/business")}
+              className="w-full sm:w-auto"
             >
               Cancel
             </Button>
-            <Button onClick={handleSave} disabled={saving}>
+            <Button onClick={handleSave} disabled={saving} className="w-full sm:w-auto">
               {saving ? (
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
               ) : (

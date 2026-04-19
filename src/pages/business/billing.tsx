@@ -4,6 +4,7 @@ import { SEO } from "@/components/SEO";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/StatusBadge";
 import { supabase } from "@/integrations/supabase/client";
 import { authService } from "@/services/authService";
 import type { Database } from "@/integrations/supabase/types";
@@ -260,11 +261,11 @@ export default function Billing() {
                         {business.stripe_subscription_id ? (
                           <Button 
                             onClick={handleManageSubscription} 
-                            disabled={managingSubscription}
+                            disabled={processingAction}
                             className="w-full sm:flex-1"
                           >
                             <Settings className="h-4 w-4 mr-2" />
-                            {managingSubscription ? "Loading..." : "Manage Subscription"}
+                            {processingAction ? "Loading..." : "Manage Subscription"}
                           </Button>
                         ) : (
                           <Button 

@@ -185,18 +185,20 @@ export default function BusinessSupport() {
 
       <div className="min-h-screen bg-muted/30">
         <header className="bg-card border-b sticky top-0 z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <MessageSquare className="h-6 w-6 text-accent" />
-              <h1 className="text-lg font-heading font-semibold">Customer Support</h1>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-accent" />
+              <h1 className="text-base sm:text-lg font-heading font-semibold">Customer Support</h1>
             </div>
             {selectedTicket && (
               <Button
                 variant="outline"
+                size="sm"
                 onClick={() => {
                   setSelectedTicket(null);
                   loadTickets();
                 }}
+                className="w-full sm:w-auto"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Tickets
@@ -205,24 +207,24 @@ export default function BusinessSupport() {
           </div>
         </header>
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           {/* Ticket Detail View */}
           {selectedTicket ? (
-            <div className="grid lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
+            <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="lg:col-span-2 space-y-4 sm:space-y-6 order-2 lg:order-1">
                 <Card>
-                  <CardHeader>
+                  <CardHeader className="p-4 sm:p-6">
                     <div className="flex items-start justify-between">
-                      <div className="space-y-2">
-                        <CardTitle>{selectedTicket.subject}</CardTitle>
-                        <div className="flex items-center gap-2">
+                      <div className="space-y-2 w-full">
+                        <CardTitle className="text-base sm:text-lg leading-tight">{selectedTicket.subject}</CardTitle>
+                        <div className="flex flex-wrap items-center gap-2">
                           <Badge variant={getStatusColor(selectedTicket.status)}>
                             {selectedTicket.status}
                           </Badge>
                           <Badge variant={getPriorityColor(selectedTicket.priority)}>
                             {selectedTicket.priority} priority
                           </Badge>
-                          <span className="text-sm text-muted-foreground flex items-center gap-1">
+                          <span className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1">
                             <Clock className="h-3 w-3" />
                             {new Date(selectedTicket.created_at).toLocaleDateString()}
                           </span>
@@ -256,15 +258,16 @@ export default function BusinessSupport() {
                 {/* Reply Form */}
                 {selectedTicket.status !== "closed" && (
                   <Card>
-                    <CardContent className="pt-6">
+                    <CardContent className="pt-4 sm:pt-6">
                       <div className="space-y-4">
                         <Textarea
                           value={replyMessage}
                           onChange={(e) => setReplyMessage(e.target.value)}
                           placeholder="Type your reply..."
                           rows={4}
+                          className="text-sm"
                         />
-                        <Button onClick={handleReply} disabled={submitting || !replyMessage.trim()}>
+                        <Button onClick={handleReply} disabled={submitting || !replyMessage.trim()} className="w-full sm:w-auto">
                           <Send className="h-4 w-4 mr-2" />
                           {submitting ? "Sending..." : "Send Reply"}
                         </Button>
@@ -275,12 +278,12 @@ export default function BusinessSupport() {
               </div>
 
               {/* Ticket Actions Sidebar */}
-              <div className="space-y-4">
+              <div className="space-y-4 order-1 lg:order-2">
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base">Customer Info</CardTitle>
+                  <CardHeader className="p-4 sm:p-6 pb-2 sm:pb-2">
+                    <CardTitle className="text-sm sm:text-base">Customer Info</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-2">
+                  <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0 space-y-2">
                     <div>
                       <div className="text-sm text-muted-foreground">Name</div>
                       <div className="font-medium">
@@ -297,10 +300,10 @@ export default function BusinessSupport() {
                 </Card>
 
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base">Update Status</CardTitle>
+                  <CardHeader className="p-4 sm:p-6 pb-2 sm:pb-2">
+                    <CardTitle className="text-sm sm:text-base">Update Status</CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
                     <Select
                       value={selectedTicket.status}
                       onValueChange={handleUpdateStatus}
@@ -319,10 +322,10 @@ export default function BusinessSupport() {
                 </Card>
 
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base">Update Priority</CardTitle>
+                  <CardHeader className="p-4 sm:p-6 pb-2 sm:pb-2">
+                    <CardTitle className="text-sm sm:text-base">Update Priority</CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
                     <Select
                       value={selectedTicket.priority}
                       onValueChange={handleUpdatePriority}
@@ -345,16 +348,18 @@ export default function BusinessSupport() {
             /* Tickets List */
             <div>
               <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="mb-6">
-                  <TabsTrigger value="all">All Tickets</TabsTrigger>
-                  <TabsTrigger value="open">Open</TabsTrigger>
-                  <TabsTrigger value="in_progress">In Progress</TabsTrigger>
-                  <TabsTrigger value="resolved">Resolved</TabsTrigger>
-                  <TabsTrigger value="closed">Closed</TabsTrigger>
-                </TabsList>
+                <div className="overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+                  <TabsList className="mb-4 sm:mb-6 inline-flex min-w-max h-auto p-1">
+                    <TabsTrigger value="all">All Tickets</TabsTrigger>
+                    <TabsTrigger value="open">Open</TabsTrigger>
+                    <TabsTrigger value="in_progress">In Progress</TabsTrigger>
+                    <TabsTrigger value="resolved">Resolved</TabsTrigger>
+                    <TabsTrigger value="closed">Closed</TabsTrigger>
+                  </TabsList>
+                </div>
 
                 <TabsContent value={activeTab}>
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {tickets.length === 0 ? (
                       <Card>
                         <CardContent className="pt-12 pb-12 text-center">
@@ -374,36 +379,36 @@ export default function BusinessSupport() {
                           className="hover:border-accent/50 cursor-pointer transition-colors"
                           onClick={() => handleViewTicket(ticket.id)}
                         >
-                          <CardContent className="pt-6">
-                            <div className="flex items-start justify-between">
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <h3 className="font-heading font-semibold">{ticket.subject}</h3>
+                          <CardContent className="p-4 sm:p-6">
+                            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                              <div className="flex-1 w-full">
+                                <div className="flex items-center gap-2 mb-1 sm:mb-2">
+                                  <h3 className="font-heading font-semibold text-sm sm:text-base leading-tight">{ticket.subject}</h3>
                                   {ticket.priority === "urgent" && (
-                                    <AlertCircle className="h-4 w-4 text-destructive" />
+                                    <AlertCircle className="h-3 w-3 sm:h-4 sm:w-4 text-destructive flex-shrink-0" />
                                   )}
                                 </div>
-                                <p className="text-sm text-muted-foreground mb-3">
+                                <p className="text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3 truncate">
                                   From: {ticket.customers?.profiles?.full_name || "Unknown Customer"}
                                 </p>
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  <Badge variant={getStatusColor(ticket.status)}>
+                                <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                                  <Badge variant={getStatusColor(ticket.status)} className="text-[10px] sm:text-xs">
                                     {ticket.status}
                                   </Badge>
-                                  <Badge variant={getPriorityColor(ticket.priority)}>
+                                  <Badge variant={getPriorityColor(ticket.priority)} className="text-[10px] sm:text-xs">
                                     {ticket.priority}
                                   </Badge>
-                                  <span className="text-sm text-muted-foreground">
+                                  <span className="text-[10px] sm:text-xs text-muted-foreground">
                                     {ticket.ticket_messages?.[0]?.count || 0} messages
                                   </span>
                                 </div>
                               </div>
-                              <div className="text-right">
-                                <span className="text-sm text-muted-foreground block">
+                              <div className="text-left sm:text-right flex flex-row sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto mt-2 sm:mt-0 pt-2 sm:pt-0 border-t sm:border-t-0">
+                                <span className="text-xs sm:text-sm text-muted-foreground block">
                                   {new Date(ticket.updated_at).toLocaleDateString()}
                                 </span>
-                                <span className="text-xs text-muted-foreground">
-                                  {new Date(ticket.updated_at).toLocaleTimeString()}
+                                <span className="text-[10px] sm:text-xs text-muted-foreground">
+                                  {new Date(ticket.updated_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                                 </span>
                               </div>
                             </div>
