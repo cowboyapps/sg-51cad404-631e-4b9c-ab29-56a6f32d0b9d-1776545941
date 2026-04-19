@@ -14,7 +14,7 @@ type PricingTier = Database["public"]["Tables"]["platform_pricing"]["Row"];
 export default function Pricing() {
   const router = useRouter();
   const [tiers, setTiers] = useState<PricingTier[]>([]);
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
+  const [isYearly, setIsYearly] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -36,10 +36,6 @@ export default function Pricing() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const getPrice = (tier: PricingTier) => {
-    return billingCycle === "monthly" ? tier.monthly_price : tier.yearly_price;
   };
 
   const getSavingsPercentage = (tier: PricingTier) => {
