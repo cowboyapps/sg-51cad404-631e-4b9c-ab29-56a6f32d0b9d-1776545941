@@ -15,72 +15,81 @@ export default async function handler(
   }
 
   try {
-    // Check if any admin already exists
-    const { data: existingAdmins, error: checkError } = await supabase
+    const { email, password, fullName } = req.body;
+
+    if (!email || !password || !fullName) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    // Check if any master admin already exists
+    const { data: existingAdmin } = await supabase
       .from("profiles")
-      .select("id, email")
+      .select("id")
       .eq("role", "master_admin")
-      .limit(1);
+      .single();
 
-    if (checkError) throw checkError;
-
-    if (existingAdmins && existingAdmins.length > 0) {
-      return res.status(400).json({
-        error: "Master admin already exists",
-        admin_email: existingAdmins[0].email,
-        message: "Login with the existing admin credentials"
+    if (existingAdmin) {
+      return res.status(403).json({ 
+        error: "A master admin already exists. Only one master admin is allowed." 
       });
     }
 
-    const { email, password, fullName } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email and password required" });
-    }
-
-    if (password.length < 8) {
-      return res.status(400).json({ error: "Password must be at least 8 characters" });
-    }
-
-    // Create the admin user via Supabase Auth (as admin)
-    // Note: This uses the service role key from environment
-    const adminClient = supabase;
-
-    const { data: authData, error: authError } = await adminClient.auth.signUp({
+    // Create the auth user using Supabase admin client
+    // Note: We need to use the service role key for this
+    const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
-          full_name: fullName || "Platform Administrator",
-        },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/admin`,
-      },
+          full_name: fullName,
+        }
+      }
     });
 
-    if (authError) throw authError;
-    if (!authData.user) throw new Error("Failed to create user");
+    if (authError) {
+      console.error("Auth creation error:", authError);
+      throw authError;
+    }
 
-    // Update the profile to set role as master_admin
-    const { error: profileError } = await adminClient
+    if (!authData.user) {
+      throw new Error("User creation failed - no user returned");
+    }
+
+    console.log("✅ Auth user created:", authData.user.id);
+
+    // Create profile with master_admin role
+    // Wait a bit for the trigger to fire, then update the role
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const { error: profileError } = await supabase
       .from("profiles")
-      .update({
+      .upsert({
+        id: authData.user.id,
+        email: email,
+        full_name: fullName,
         role: "master_admin",
-        full_name: fullName || "Platform Administrator",
-      })
-      .eq("id", authData.user.id);
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }, {
+        onConflict: "id"
+      });
 
-    if (profileError) throw profileError;
+    if (profileError) {
+      console.error("Profile creation error:", profileError);
+      // Try to clean up the auth user if profile creation failed
+      await supabase.auth.admin.deleteUser(authData.user.id);
+      throw profileError;
+    }
+
+    console.log("✅ Master admin profile created");
 
     return res.status(200).json({
       success: true,
-      message: "Master admin created successfully",
-      email: authData.user.email,
-      user_id: authData.user.id,
-      next_step: "Login at /login with your credentials"
+      message: "Master admin account created successfully",
+      userId: authData.user.id
     });
-
   } catch (error: any) {
-    console.error("Error creating admin:", error);
+    console.error("Init admin error:", error);
     return res.status(500).json({
       error: error.message || "Failed to create admin account"
     });
