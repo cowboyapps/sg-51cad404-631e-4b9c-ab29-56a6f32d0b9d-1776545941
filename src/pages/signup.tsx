@@ -28,23 +28,51 @@ export default function SignupPage() {
     setError("");
 
     try {
+      console.log("🚀 Starting signup process...");
+
       // 1. Sign up user
-      const { user } = await authService.signUp(formData.email, formData.password);
+      console.log("📝 Creating auth user...");
+      const { user, error: signUpError } = await authService.signUp(formData.email, formData.password);
 
-      if (!user) throw new Error("User creation failed");
+      if (signUpError) {
+        console.error("❌ Auth signup error:", signUpError);
+        throw new Error(signUpError.message || "Failed to create account");
+      }
 
-      // 2. Update profile role to business_owner
+      if (!user) {
+        console.error("❌ No user returned from signup");
+        throw new Error("User creation failed - no user returned");
+      }
+
+      console.log("✅ Auth user created:", user.id);
+
+      // Wait a moment for the profile trigger to fire
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // 2. Ensure profile exists and update role to business_owner
+      console.log("👤 Creating/updating profile...");
       const { error: profileError } = await supabase
         .from("profiles")
-        .update({ 
-          role: "business_owner",
+        .upsert({ 
+          id: user.id,
+          email: formData.email,
           full_name: formData.fullName,
-        })
-        .eq("id", user.id);
+          role: "business_owner",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }, {
+          onConflict: "id"
+        });
 
-      if (profileError) throw profileError;
+      if (profileError) {
+        console.error("❌ Profile error:", profileError);
+        throw new Error(`Profile setup failed: ${profileError.message}`);
+      }
+
+      console.log("✅ Profile created/updated");
 
       // 3. Create business
+      console.log("🏢 Creating business...");
       const business = await businessService.createBusiness({
         owner_id: user.id,
         name: formData.businessName,
@@ -52,19 +80,44 @@ export default function SignupPage() {
         status: "trial",
       });
 
+      console.log("✅ Business created:", business.id);
+
       // 4. Link business to profile
+      console.log("🔗 Linking business to profile...");
       const { error: linkError } = await supabase
         .from("profiles")
         .update({ business_id: business.id })
         .eq("id", user.id);
 
-      if (linkError) throw linkError;
+      if (linkError) {
+        console.error("❌ Link error:", linkError);
+        throw new Error(`Failed to link business: ${linkError.message}`);
+      }
+
+      console.log("✅ Business linked to profile");
+      console.log("🎉 Signup complete! Redirecting to dashboard...");
 
       // 5. Redirect to business dashboard
       router.push("/business");
     } catch (err: any) {
-      console.error("Signup error:", err);
-      setError(err.message || "Failed to create account. Please try again.");
+      console.error("💥 Signup error:", err);
+      
+      // Show specific error messages
+      let errorMessage = "Failed to create account. Please try again.";
+      
+      if (err.message?.includes("already registered")) {
+        errorMessage = "This email is already registered. Please login instead.";
+      } else if (err.message?.includes("slug")) {
+        errorMessage = "This business URL is already taken. Please choose a different one.";
+      } else if (err.message?.includes("Profile")) {
+        errorMessage = "Failed to set up your account profile. Please contact support.";
+      } else if (err.message?.includes("Business")) {
+        errorMessage = "Failed to create your business. Please try again.";
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
