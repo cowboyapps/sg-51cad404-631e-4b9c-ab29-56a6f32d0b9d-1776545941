@@ -104,62 +104,62 @@ export default function Home() {
       <div className="min-h-screen bg-background">
         {/* Navigation */}
         <nav className="border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-          <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Server className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">IPTV Platform</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" onClick={() => router.push("/pricing")}>
-                Pricing
-              </Button>
-              <Button variant="ghost" onClick={() => router.push("/login")}>
-                Sign In
-              </Button>
-              <Button onClick={() => router.push("/signup")}>
-                Start Free Trial
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Zap className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+                <span className="text-base sm:text-xl font-bold">IPTV Platform</span>
+              </div>
+              <div className="flex items-center gap-2 sm:gap-4">
+                <Button variant="ghost" onClick={() => router.push("/pricing")} className="hidden sm:inline-flex">
+                  Pricing
+                </Button>
+                <Button variant="ghost" onClick={() => router.push("/login")} className="hidden sm:inline-flex">
+                  Login
+                </Button>
+                <Button onClick={() => router.push("/signup")} size="sm">
+                  <span className="hidden sm:inline">Start Free Trial</span>
+                  <span className="sm:hidden">Sign Up</span>
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </nav>
 
         {/* Hero Section */}
-        <section className="py-24 px-4 relative overflow-hidden">
+        <section className="py-12 sm:py-24 px-4 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
           <div className="container mx-auto relative">
-            <div className="max-w-4xl mx-auto text-center space-y-8">
-              <Badge variant="outline" className="text-sm px-4 py-1.5">
-                <Zap className="h-3 w-3 mr-1.5 inline" />
-                Launch in Under 5 Minutes
+            <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
+              <Badge variant="secondary" className="mb-2 sm:mb-4">
+                🚀 Launch in Under 5 Minutes
               </Badge>
-              
-              <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-                The Complete Platform for
-                <span className="text-primary"> IPTV Businesses</span>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight">
+                Launch Your IPTV Business
+                <span className="block text-primary mt-2">Without the Technical Headaches</span>
               </h1>
-              
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Everything you need to launch and scale a professional IPTV service. 
-                Automated billing, customer management, domain marketplace, and white-label branding—all in one place.
+              <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+                Complete all-in-one platform with automated billing, customer management, 
+                domain marketplace, and white-label branding. Everything you need to run 
+                a professional IPTV service.
               </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <Button size="lg" onClick={() => router.push("/signup")} className="text-lg px-8">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-4">
+                <Button size="lg" onClick={() => router.push("/signup")} className="w-full sm:w-auto">
                   Start Free Trial
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-                <Button size="lg" variant="outline" onClick={() => router.push("/pricing")} className="text-lg px-8">
+                <Button size="lg" variant="outline" onClick={() => router.push("/pricing")} className="w-full sm:w-auto">
                   View Pricing
                 </Button>
               </div>
-
-              {/* Stats Bar */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 max-w-3xl mx-auto">
-                {stats.map((stat) => (
-                  <div key={stat.label} className="text-center">
-                    <div className="text-3xl font-bold text-primary">{stat.value}</div>
-                    <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+              
+              {/* Stats */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 pt-8 sm:pt-12 border-t">
+                {stats.map((stat, index) => (
+                  <div key={index} className="space-y-1 sm:space-y-2">
+                    <div className="text-2xl sm:text-3xl font-bold text-primary">{stat.value}</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -168,32 +168,32 @@ export default function Home() {
         </section>
 
         {/* Features Grid */}
-        <section className="py-24 px-4 bg-muted/30">
+        <section className="py-12 sm:py-24 px-4 bg-muted/30">
           <div className="container mx-auto">
-            <div className="text-center mb-16 space-y-4">
-              <Badge variant="outline">Complete Solution</Badge>
-              <h2 className="text-4xl font-bold">Everything You Need, Nothing You Don't</h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Built specifically for IPTV businesses. No generic features, no bloat—just what you actually need.
+            <div className="text-center mb-8 sm:mb-16 space-y-3 sm:space-y-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold">
+                Everything You Need, All in One Platform
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+                Stop juggling multiple tools. Get a complete IPTV business platform with 
+                professional features that normally cost thousands per month.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-              {features.map((feature) => (
-                <Card key={feature.title} className="border-border/50 hover:border-primary/50 transition-colors">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {features.map((feature, index) => (
+                <Card key={index} className="hover:border-primary/50 transition-colors">
                   <CardHeader>
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
-                        <feature.icon className="h-6 w-6" />
+                    <div className="flex items-start justify-between mb-3 sm:mb-4">
+                      <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                       </div>
-                      <Badge variant="secondary" className="text-xs">{feature.badge}</Badge>
+                      <Badge variant="secondary" className="text-[10px] sm:text-xs">{feature.badge}</Badge>
                     </div>
-                    <CardTitle className="text-xl">{feature.title}</CardTitle>
+                    <CardTitle className="text-base sm:text-lg">{feature.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <CardDescription className="text-base leading-relaxed">
-                      {feature.description}
-                    </CardDescription>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{feature.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -202,29 +202,30 @@ export default function Home() {
         </section>
 
         {/* How It Works */}
-        <section className="py-24 px-4">
+        <section className="py-12 sm:py-24 px-4">
           <div className="container mx-auto">
-            <div className="text-center mb-16 space-y-4">
-              <Badge variant="outline">Simple Process</Badge>
-              <h2 className="text-4xl font-bold">Launch in Three Steps</h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                From zero to fully operational IPTV business in under 5 minutes.
+            <div className="text-center mb-8 sm:mb-16 space-y-3 sm:space-y-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold">
+                Launch Your IPTV Business in 3 Steps
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+                From signup to first customer in under 5 minutes. No technical knowledge required.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="grid sm:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
               {steps.map((step, index) => (
-                <div key={step.number} className="relative">
-                  {index < steps.length - 1 && (
-                    <div className="hidden md:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-primary/50 to-transparent -translate-x-4" />
-                  )}
-                  <div className="text-center space-y-4">
-                    <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-primary/10 text-primary text-2xl font-bold border-2 border-primary/20">
-                      {step.number}
+                <div key={index} className="relative">
+                  <div className="flex flex-col items-start sm:items-center text-left sm:text-center space-y-3 sm:space-y-4">
+                    <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <span className="text-xl sm:text-2xl font-bold text-primary">{step.number}</span>
                     </div>
-                    <h3 className="text-2xl font-semibold">{step.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                    <h3 className="text-lg sm:text-xl font-heading font-semibold">{step.title}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{step.description}</p>
                   </div>
+                  {index < steps.length - 1 && (
+                    <div className="hidden sm:block absolute top-8 left-[60%] w-[80%] h-0.5 bg-border" />
+                  )}
                 </div>
               ))}
             </div>
@@ -232,23 +233,25 @@ export default function Home() {
         </section>
 
         {/* Social Proof */}
-        <section className="py-24 px-4 bg-muted/30">
+        <section className="py-12 sm:py-24 px-4 bg-muted/30">
           <div className="container mx-auto">
             <div className="max-w-4xl mx-auto">
-              <Card className="border-primary/20">
-                <CardContent className="p-12 text-center space-y-6">
-                  <div className="flex justify-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <div key={i} className="text-primary text-3xl">★</div>
-                    ))}
-                  </div>
-                  <blockquote className="text-2xl font-medium leading-relaxed">
-                    "This platform saved me weeks of development time. I went from idea to live IPTV business in literally 3 minutes. 
-                    The domain marketplace and auto-DNS setup is genius—no technical headaches."
-                  </blockquote>
-                  <div className="pt-4">
-                    <div className="font-semibold text-lg">Michael Rodriguez</div>
-                    <div className="text-muted-foreground">Founder, StreamPro IPTV</div>
+              <Card className="border-primary/30">
+                <CardContent className="pt-6 sm:pt-8">
+                  <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
+                    <div className="flex-shrink-0">
+                      <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-primary/20" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-base sm:text-lg md:text-xl italic mb-4 sm:mb-6">
+                        "This platform saved me months of development time and thousands in setup costs. 
+                        I was able to launch my IPTV service in a weekend and started getting customers immediately."
+                      </p>
+                      <div>
+                        <p className="font-semibold">Alex Martinez</p>
+                        <p className="text-xs sm:text-sm text-muted-foreground">StreamPro IPTV, Miami</p>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -257,41 +260,26 @@ export default function Home() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-24 px-4">
+        <section className="py-12 sm:py-24 px-4">
           <div className="container mx-auto">
             <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-accent/5">
-              <CardContent className="p-16 text-center space-y-8">
-                <div className="space-y-4">
-                  <h2 className="text-4xl md:text-5xl font-bold">
+              <CardContent className="pt-8 sm:pt-12 text-center">
+                <div className="max-w-2xl mx-auto space-y-4 sm:space-y-6">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-heading font-bold">
                     Ready to Launch Your IPTV Business?
                   </h2>
-                  <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                    Join hundreds of IPTV providers using our platform. Start your free trial today—no credit card required.
+                  <p className="text-sm sm:text-base md:text-lg text-muted-foreground">
+                    Join hundreds of successful IPTV businesses using our platform. 
+                    Start your 14-day free trial today—no credit card required.
                   </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                  <Button size="lg" onClick={() => router.push("/signup")} className="text-lg px-8">
-                    Start Free Trial
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                  <Button size="lg" variant="outline" onClick={() => router.push("/pricing")} className="text-lg px-8">
-                    View Pricing
-                  </Button>
-                </div>
-
-                <div className="flex items-center justify-center gap-8 pt-8 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-primary" />
-                    <span>No credit card required</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-primary" />
-                    <span>14-day free trial</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-primary" />
-                    <span>Cancel anytime</span>
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-4">
+                    <Button size="lg" onClick={() => router.push("/signup")} className="w-full sm:w-auto">
+                      Start Free Trial
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                    <Button size="lg" variant="outline" onClick={() => router.push("/pricing")} className="w-full sm:w-auto">
+                      View Pricing
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -300,9 +288,9 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-border/40 py-12 px-4">
+        <footer className="border-t border-border/40 py-8 sm:py-12 px-4">
           <div className="container mx-auto">
-            <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8">
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <Server className="h-5 w-5 text-primary" />
@@ -340,7 +328,7 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="pt-8 border-t border-border/40 text-center text-sm text-muted-foreground">
+            <div className="border-t pt-6 sm:pt-8 text-center text-xs sm:text-sm text-muted-foreground">
               <p>© 2026 IPTV Platform. All rights reserved.</p>
             </div>
           </div>
