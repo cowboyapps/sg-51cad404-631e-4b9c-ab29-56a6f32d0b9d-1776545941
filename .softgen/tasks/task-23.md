@@ -14,6 +14,8 @@ Comprehensive mobile optimization completed for the entire platform. All dashboa
 
 Fixed master admin authentication issue - accounts created via `/admin/init` now properly receive `master_admin` role.
 
+Fixed business signup flow - added profile auto-creation trigger and proper RLS policies for business creation.
+
 ## Checklist
 - [x] Create responsive navigation component with mobile menu
 - [x] Optimize master admin dashboard for mobile
