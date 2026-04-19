@@ -161,32 +161,33 @@ export default function CustomerDashboard() {
     <>
       <SEO title="My Account - Customer Portal" />
       <div className="min-h-screen bg-background">
-        <header className="bg-card border-b">
-          <div className="max-w-5xl mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+        {/* Header - Mobile Responsive */}
+        <header className="bg-card border-b sticky top-0 z-10">
+          <div className="max-w-5xl mx-auto px-4 py-3 sm:py-4">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                 {customer.businesses?.logo_url && (
-                  <img src={customer.businesses.logo_url} alt="Logo" className="h-8 w-8 rounded" />
+                  <img src={customer.businesses.logo_url} alt="Logo" className="h-6 w-6 sm:h-8 sm:w-8 rounded flex-shrink-0" />
                 )}
-                <h1 className="text-xl font-heading font-semibold">
+                <h1 className="text-base sm:text-xl font-heading font-semibold truncate">
                   {customer.businesses?.name || "IPTV Service"}
                 </h1>
               </div>
-              <Button variant="ghost" size="sm" onClick={handleLogout}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
+              <Button variant="ghost" size="sm" onClick={handleLogout} className="flex-shrink-0">
+                <LogOut className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Logout</span>
               </Button>
             </div>
           </div>
         </header>
 
-        <main className="max-w-5xl mx-auto px-4 py-8 space-y-6">
+        <main className="max-w-5xl mx-auto px-4 py-6 sm:py-8 space-y-4 sm:space-y-6">
           {/* Account Status Banner */}
           <Card className="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
-            <CardContent className="py-6">
-              <div className="flex items-center justify-between">
+            <CardContent className="py-4 sm:py-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                  <h2 className="text-lg font-heading font-semibold mb-1">Account Status</h2>
+                  <h2 className="text-base sm:text-lg font-heading font-semibold mb-1">Account Status</h2>
                   <p className="text-sm text-muted-foreground">
                     Your subscription is {customer.subscription_status}
                   </p>
@@ -200,34 +201,34 @@ export default function CustomerDashboard() {
           {activeSubscription && (
             <Card>
               <CardHeader className="border-b">
-                <div className="flex items-start justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                   <div>
-                    <CardTitle className="flex items-center gap-2">
-                      <Tv className="h-5 w-5 text-primary" />
+                    <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                      <Tv className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                       Active Service
                     </CardTitle>
-                    <CardDescription className="mt-1">
+                    <CardDescription className="mt-1 text-sm">
                       {activeSubscription.subscription_plans?.name} — ${activeSubscription.subscription_plans?.price}/{activeSubscription.subscription_plans?.billing_cycle}
                     </CardDescription>
                   </div>
                   <StatusBadge status={activeSubscription.status as any} />
                 </div>
               </CardHeader>
-              <CardContent className="pt-6 space-y-6">
+              <CardContent className="pt-4 sm:pt-6 space-y-4 sm:space-y-6">
                 {/* Billing Info */}
                 <div>
                   <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
                     <CreditCard className="h-4 w-4 text-primary" />
                     Billing Information
                   </h3>
-                  <div className="bg-muted/30 rounded-lg p-4 space-y-2 text-sm">
-                    <div className="flex justify-between">
+                  <div className="bg-muted/30 rounded-lg p-3 sm:p-4 space-y-2 text-sm">
+                    <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                       <span className="text-muted-foreground">Current Period</span>
                       <span className="font-medium">
                         {new Date(activeSubscription.current_period_start).toLocaleDateString()} — {new Date(activeSubscription.current_period_end).toLocaleDateString()}
                       </span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                       <span className="text-muted-foreground">Next Billing Date</span>
                       <span className="font-medium">
                         {new Date(activeSubscription.current_period_end).toLocaleDateString()}
@@ -236,43 +237,43 @@ export default function CustomerDashboard() {
                   </div>
                 </div>
 
-                {/* Usage Stats */}
+                {/* Usage Stats - Mobile Optimized Grid */}
                 <Card>
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="flex items-center gap-2">
-                        <Activity className="h-5 w-5" />
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                        <Activity className="h-4 w-4 sm:h-5 sm:w-5" />
                         Usage (Last 30 Days)
                       </CardTitle>
-                      <Badge variant="outline">Beta</Badge>
+                      <Badge variant="outline" className="w-fit">Beta</Badge>
                     </div>
-                    <CardDescription>Your streaming activity summary</CardDescription>
+                    <CardDescription className="text-sm">Your streaming activity summary</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-3 gap-3 sm:gap-6">
                       <div>
-                        <div className="text-sm text-muted-foreground mb-1">Bandwidth</div>
-                        <div className="text-2xl font-bold">{usageStats.bandwidth} GB</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground mb-1">Bandwidth</div>
+                        <div className="text-lg sm:text-2xl font-bold">{usageStats.bandwidth} GB</div>
                       </div>
                       <div>
-                        <div className="text-sm text-muted-foreground mb-1">Watch Time</div>
-                        <div className="text-2xl font-bold">{usageStats.watchTime} hrs</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground mb-1">Watch Time</div>
+                        <div className="text-lg sm:text-2xl font-bold">{usageStats.watchTime} hrs</div>
                       </div>
                       <div>
-                        <div className="text-sm text-muted-foreground mb-1">Devices</div>
-                        <div className="text-2xl font-bold">{usageStats.devices}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground mb-1">Devices</div>
+                        <div className="text-lg sm:text-2xl font-bold">{usageStats.devices}</div>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* IPTV Credentials */}
+                {/* IPTV Credentials - Mobile Optimized */}
                 <div>
                   <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
                     <Server className="h-4 w-4 text-primary" />
                     Your IPTV Credentials
                   </h3>
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid gap-4">
                     {/* Xtream Codes / M3U Section */}
                     <div className="space-y-3">
                       <p className="text-xs text-muted-foreground uppercase tracking-wider">Xtream Codes / M3U</p>
@@ -294,7 +295,7 @@ export default function CustomerDashboard() {
                               )}
                             </Button>
                           </div>
-                          <code className="text-sm font-mono block break-all">{activeSubscription.iptv_username}</code>
+                          <code className="text-xs sm:text-sm font-mono block break-all">{activeSubscription.iptv_username}</code>
                         </div>
                       )}
 
@@ -315,7 +316,7 @@ export default function CustomerDashboard() {
                               )}
                             </Button>
                           </div>
-                          <code className="text-sm font-mono block break-all">{activeSubscription.iptv_password}</code>
+                          <code className="text-xs sm:text-sm font-mono block break-all">{activeSubscription.iptv_password}</code>
                         </div>
                       )}
 
@@ -336,7 +337,7 @@ export default function CustomerDashboard() {
                               )}
                             </Button>
                           </div>
-                          <code className="text-sm font-mono block break-all text-xs">{activeSubscription.iptv_server_url}</code>
+                          <code className="text-xs font-mono block break-all">{activeSubscription.iptv_server_url}</code>
                         </div>
                       )}
                     </div>
@@ -362,27 +363,27 @@ export default function CustomerDashboard() {
                               )}
                             </Button>
                           </div>
-                          <code className="text-sm font-mono block">{activeSubscription.iptv_mac_address}</code>
+                          <code className="text-xs sm:text-sm font-mono block">{activeSubscription.iptv_mac_address}</code>
                         </div>
                       ) : (
                         <div className="bg-muted/20 rounded-lg p-3 border border-dashed border-border/50">
-                          <p className="text-sm text-muted-foreground text-center">No MAG device registered</p>
+                          <p className="text-xs sm:text-sm text-muted-foreground text-center">No MAG device registered</p>
                         </div>
                       )}
                     </div>
                   </div>
 
                   {(!activeSubscription.iptv_username && !activeSubscription.iptv_password) && (
-                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 mt-4">
-                      <p className="text-sm text-amber-200">
+                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 sm:p-4 mt-4">
+                      <p className="text-xs sm:text-sm text-amber-200">
                         Your IPTV credentials are being provisioned. Please check back in a few minutes or contact support if this persists.
                       </p>
                     </div>
                   )}
                 </div>
 
-                {/* Quick Actions */}
-                <div className="flex items-center gap-3 pt-4 border-t">
+                {/* Quick Actions - Mobile Stacked */}
+                <div className="flex flex-col sm:flex-row items-stretch gap-3 pt-4 border-t">
                   <Button variant="outline" className="flex-1">
                     <CreditCard className="h-4 w-4 mr-2" />
                     Billing History
@@ -401,11 +402,11 @@ export default function CustomerDashboard() {
             <Card className="border-dashed">
               <CardContent className="py-12 text-center">
                 <Tv className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-heading font-semibold mb-2">No Active Subscription</h3>
+                <h3 className="text-base sm:text-lg font-heading font-semibold mb-2">No Active Subscription</h3>
                 <p className="text-sm text-muted-foreground mb-4">
                   Choose a plan to start enjoying IPTV services
                 </p>
-                <Button>Browse Plans</Button>
+                <Button className="w-full sm:w-auto">Browse Plans</Button>
               </CardContent>
             </Card>
           )}

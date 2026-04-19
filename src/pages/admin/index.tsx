@@ -187,27 +187,29 @@ export default function AdminDashboard() {
       />
       
       <div className="min-h-screen bg-muted/30">
-        {/* Header */}
+        {/* Header - Mobile Responsive */}
         <header className="bg-card border-b sticky top-0 z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-lg bg-primary" />
-              <div>
-                <h1 className="text-lg font-heading font-semibold">Master Admin</h1>
-                <p className="text-sm text-muted-foreground">Platform Management</p>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg bg-primary flex-shrink-0" />
+                <div className="min-w-0">
+                  <h1 className="text-base sm:text-lg font-heading font-semibold truncate">Master Admin</h1>
+                  <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">Platform Management</p>
+                </div>
               </div>
+              <Button variant="outline" size="sm" onClick={handleSignOut} className="flex-shrink-0">
+                <LogOut className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Sign Out</span>
+              </Button>
             </div>
-            <Button variant="outline" size="sm" onClick={handleSignOut}>
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </Button>
           </div>
         </header>
 
         {/* Main Content */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-          {/* Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+          {/* Metrics - Responsive Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             <MetricCard
               title="Total Businesses"
               value={metrics.total}
@@ -237,13 +239,13 @@ export default function AdminDashboard() {
           {/* Pricing Management Section */}
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <PricingIcon className="h-5 w-5" />
+                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                    <PricingIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                     Platform Pricing Tiers
                   </CardTitle>
-                  <CardDescription>Manage subscription plans for IPTV businesses</CardDescription>
+                  <CardDescription className="text-sm">Manage subscription plans for IPTV businesses</CardDescription>
                 </div>
                 <Button onClick={() => {
                   setEditingTier({
@@ -257,7 +259,7 @@ export default function AdminDashboard() {
                     sort_order: pricingTiers.length + 1
                   });
                   setShowPricingForm(true);
-                }}>
+                }} className="w-full sm:w-auto">
                   <Plus className="h-4 w-4 mr-2" />
                   Add Tier
                 </Button>
@@ -267,12 +269,12 @@ export default function AdminDashboard() {
               {showPricingForm && editingTier ? (
                 <Card className="mb-6 border-primary/50">
                   <CardHeader>
-                    <CardTitle className="text-lg">
+                    <CardTitle className="text-base sm:text-lg">
                       {editingTier.id ? "Edit" : "Create"} Pricing Tier
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid sm:grid-cols-2 gap-4">
                       <div>
                         <label className="text-sm font-medium mb-2 block">Tier Name (ID)</label>
                         <Input
@@ -301,7 +303,7 @@ export default function AdminDashboard() {
                       />
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-4">
+                    <div className="grid sm:grid-cols-3 gap-4">
                       <div>
                         <label className="text-sm font-medium mb-2 block">Monthly Price ($)</label>
                         <Input
@@ -345,15 +347,15 @@ export default function AdminDashboard() {
                       />
                     </div>
 
-                    <div className="flex items-center justify-between pt-4 border-t">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t">
                       <Button variant="outline" onClick={() => {
                         setEditingTier(null);
                         setShowPricingForm(false);
-                      }}>
+                      }} className="w-full sm:w-auto">
                         <X className="h-4 w-4 mr-2" />
                         Cancel
                       </Button>
-                      <Button onClick={savePricingTier}>
+                      <Button onClick={savePricingTier} className="w-full sm:w-auto">
                         <Save className="h-4 w-4 mr-2" />
                         Save Tier
                       </Button>
@@ -365,74 +367,75 @@ export default function AdminDashboard() {
               <div className="space-y-4">
                 {pricingTiers.map((tier) => (
                   <Card key={tier.id} className={!tier.is_active ? "opacity-60" : ""}>
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-xl font-semibold">{tier.display_name}</h3>
-                            <Badge variant={tier.is_active ? "default" : "secondary"}>
-                              {tier.is_active ? "Active" : "Inactive"}
-                            </Badge>
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="space-y-4">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                              <h3 className="text-lg sm:text-xl font-semibold">{tier.display_name}</h3>
+                              <Badge variant={tier.is_active ? "default" : "secondary"}>
+                                {tier.is_active ? "Active" : "Inactive"}
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-muted-foreground mb-4">{tier.description}</p>
                           </div>
-                          <p className="text-muted-foreground mb-4">{tier.description}</p>
-                          
-                          <div className="grid md:grid-cols-2 gap-6 mb-4">
-                            <div>
-                              <p className="text-sm text-muted-foreground">Pricing</p>
-                              <div className="text-2xl font-bold">
-                                ${Number(tier.monthly_price).toFixed(2)}/mo
-                                <span className="text-base font-normal text-muted-foreground ml-2">
-                                  or ${Number(tier.yearly_price).toFixed(2)}/yr
-                                </span>
-                              </div>
-                            </div>
-                            <div>
-                              <p className="text-sm text-muted-foreground mb-2">Features</p>
-                              <div className="flex flex-wrap gap-2">
-                                {Array.isArray(tier.features) && tier.features.slice(0, 3).map((feature: string, idx: number) => (
-                                  <Badge key={idx} variant="outline" className="text-xs">
-                                    {feature}
-                                  </Badge>
-                                ))}
-                                {Array.isArray(tier.features) && tier.features.length > 3 && (
-                                  <Badge variant="outline" className="text-xs">
-                                    +{tier.features.length - 3} more
-                                  </Badge>
-                                )}
-                              </div>
-                            </div>
+                          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => toggleTierActive(tier.id, tier.is_active)}
+                            >
+                              {tier.is_active ? (
+                                <XCircle className="h-4 w-4" />
+                              ) : (
+                                <CheckCircle className="h-4 w-4" />
+                              )}
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                setEditingTier(tier);
+                                setShowPricingForm(true);
+                              }}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => deletePricingTier(tier.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
                           </div>
                         </div>
-
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => toggleTierActive(tier.id, tier.is_active)}
-                          >
-                            {tier.is_active ? (
-                              <XCircle className="h-4 w-4" />
-                            ) : (
-                              <CheckCircle className="h-4 w-4" />
-                            )}
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => {
-                              setEditingTier(tier);
-                              setShowPricingForm(true);
-                            }}
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => deletePricingTier(tier.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
+                        
+                        <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-1">Pricing</p>
+                            <div className="text-xl sm:text-2xl font-bold">
+                              ${Number(tier.monthly_price).toFixed(2)}/mo
+                            </div>
+                            <span className="text-sm font-normal text-muted-foreground">
+                              or ${Number(tier.yearly_price).toFixed(2)}/yr
+                            </span>
+                          </div>
+                          <div>
+                            <p className="text-sm text-muted-foreground mb-2">Features</p>
+                            <div className="flex flex-wrap gap-2">
+                              {Array.isArray(tier.features) && tier.features.slice(0, 3).map((feature: string, idx: number) => (
+                                <Badge key={idx} variant="outline" className="text-xs">
+                                  {feature}
+                                </Badge>
+                              ))}
+                              {Array.isArray(tier.features) && tier.features.length > 3 && (
+                                <Badge variant="outline" className="text-xs">
+                                  +{tier.features.length - 3} more
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </CardContent>
@@ -442,68 +445,71 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
 
-          {/* Businesses Table */}
+          {/* Businesses Table - Horizontal Scroll on Mobile */}
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                  <CardTitle>IPTV Businesses</CardTitle>
-                  <CardDescription>Manage all registered businesses</CardDescription>
+                  <CardTitle className="text-lg sm:text-xl">IPTV Businesses</CardTitle>
+                  <CardDescription className="text-sm">Manage all registered businesses</CardDescription>
                 </div>
-                <Button onClick={() => router.push("/admin/businesses/new")}>
+                <Button onClick={() => router.push("/admin/businesses/new")} className="w-full sm:w-auto">
+                  <Plus className="h-4 w-4 mr-2" />
                   Add Business
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b text-left text-sm text-muted-foreground">
-                      <th className="pb-3 font-medium">Business</th>
-                      <th className="pb-3 font-medium">Slug</th>
-                      <th className="pb-3 font-medium">Status</th>
-                      <th className="pb-3 font-medium">Created</th>
-                      <th className="pb-3 font-medium">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y">
-                    {businesses.map((business) => (
-                      <tr key={business.id} className="hover:bg-muted/50">
-                        <td className="py-4">
-                          <div className="font-medium">{business.name}</div>
-                        </td>
-                        <td className="py-4">
-                          <code className="text-sm bg-muted px-2 py-1 rounded">
-                            /{business.slug}
-                          </code>
-                        </td>
-                        <td className="py-4">
-                          <StatusBadge status={business.status} type="business" />
-                        </td>
-                        <td className="py-4 text-sm text-muted-foreground">
-                          {new Date(business.created_at).toLocaleDateString()}
-                        </td>
-                        <td className="py-4">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => router.push(`/admin/businesses/${business.id}`)}
-                          >
-                            View
-                          </Button>
-                        </td>
+              <div className="overflow-x-auto -mx-4 sm:mx-0">
+                <div className="inline-block min-w-full align-middle">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b text-left text-sm text-muted-foreground">
+                        <th className="pb-3 pl-4 sm:pl-0 font-medium whitespace-nowrap">Business</th>
+                        <th className="pb-3 font-medium whitespace-nowrap">Slug</th>
+                        <th className="pb-3 font-medium whitespace-nowrap">Status</th>
+                        <th className="pb-3 font-medium whitespace-nowrap">Created</th>
+                        <th className="pb-3 pr-4 sm:pr-0 font-medium whitespace-nowrap">Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y">
+                      {businesses.map((business) => (
+                        <tr key={business.id} className="hover:bg-muted/50">
+                          <td className="py-4 pl-4 sm:pl-0">
+                            <div className="font-medium whitespace-nowrap">{business.name}</div>
+                          </td>
+                          <td className="py-4">
+                            <code className="text-sm bg-muted px-2 py-1 rounded whitespace-nowrap">
+                              /{business.slug}
+                            </code>
+                          </td>
+                          <td className="py-4">
+                            <StatusBadge status={business.status} type="business" />
+                          </td>
+                          <td className="py-4 text-sm text-muted-foreground whitespace-nowrap">
+                            {new Date(business.created_at).toLocaleDateString()}
+                          </td>
+                          <td className="py-4 pr-4 sm:pr-0">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => router.push(`/admin/businesses/${business.id}`)}
+                            >
+                              View
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
 
-                {businesses.length === 0 && (
-                  <div className="text-center py-12">
-                    <Building2 className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                    <p className="text-muted-foreground">No businesses yet</p>
-                  </div>
-                )}
+                  {businesses.length === 0 && (
+                    <div className="text-center py-12 px-4">
+                      <Building2 className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                      <p className="text-muted-foreground">No businesses yet</p>
+                    </div>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>
