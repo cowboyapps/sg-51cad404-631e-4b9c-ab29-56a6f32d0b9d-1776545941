@@ -35,29 +35,44 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     checkAuth();
-    loadData();
-    loadPricingTiers();
   }, []);
 
   const checkAuth = async () => {
-    const session = await authService.getCurrentSession();
-    if (!session) {
+    try {
+      const session = await authService.getCurrentSession();
+      
+      if (!session) {
+        router.push("/login");
+        return;
+      }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", session.user.id)
+        .single();
+
+      if (profile?.role !== "master_admin") {
+        // Not a master admin, redirect to appropriate page
+        if (profile?.role === "business_owner") {
+          router.push("/business");
+        } else if (profile?.role === "customer") {
+          router.push("/customer");
+        } else {
+          router.push("/");
+        }
+        return;
+      }
+
+      // User is master admin, load dashboard
+      await loadDashboard();
+    } catch (error) {
+      console.error("Auth check error:", error);
       router.push("/login");
-      return;
-    }
-
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", session.user.id)
-      .single();
-
-    if (profile?.role !== "master_admin") {
-      router.push("/");
     }
   };
 
-  const loadData = async () => {
+  const loadDashboard = async () => {
     try {
       const { data, error } = await supabase
         .from("businesses")

@@ -9,14 +9,11 @@ import Link from "next/link";
 import { authService } from "@/services/authService";
 import { supabase } from "@/integrations/supabase/client";
 
-export default function LoginPage() {
+export default function Login() {
   const router = useRouter();
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,11 +27,16 @@ export default function LoginPage() {
       if (!user) throw new Error("No user returned");
 
       // Get user profile to check role
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("role, business_id")
         .eq("id", user.id)
         .single();
+
+      if (profileError) {
+        console.error("Profile fetch error:", profileError);
+        throw new Error("Failed to fetch user profile");
+      }
 
       // Redirect based on role
       if (profile?.role === "master_admin") {
