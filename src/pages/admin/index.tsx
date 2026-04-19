@@ -39,35 +39,52 @@ export default function AdminDashboard() {
 
   const checkAuth = async () => {
     try {
+      console.log("🔍 [Admin] Checking authentication...");
       const session = await authService.getCurrentSession();
       
       if (!session) {
+        console.log("❌ [Admin] No session found, redirecting to /login");
         router.push("/login");
         return;
       }
 
-      const { data: profile } = await supabase
+      console.log("✅ [Admin] Session found for user:", session.user.id);
+
+      const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("role")
         .eq("id", session.user.id)
         .single();
 
+      console.log("👤 [Admin] User profile:", profile);
+
+      if (profileError) {
+        console.error("❌ [Admin] Profile fetch error:", profileError);
+        router.push("/login");
+        return;
+      }
+
       if (profile?.role !== "master_admin") {
+        console.log("🚫 [Admin] User role is NOT master_admin, role is:", profile?.role);
         // Not a master admin, redirect to appropriate page
         if (profile?.role === "business_owner") {
+          console.log("➡️ [Admin] Redirecting to /business");
           router.push("/business");
         } else if (profile?.role === "customer") {
+          console.log("➡️ [Admin] Redirecting to /customer");
           router.push("/customer");
         } else {
+          console.log("➡️ [Admin] Unknown role, redirecting to /");
           router.push("/");
         }
         return;
       }
 
+      console.log("✅ [Admin] User IS master_admin, loading dashboard");
       // User is master admin, load dashboard
       await loadDashboard();
     } catch (error) {
-      console.error("Auth check error:", error);
+      console.error("❌ [Admin] Auth check error:", error);
       router.push("/login");
     }
   };
