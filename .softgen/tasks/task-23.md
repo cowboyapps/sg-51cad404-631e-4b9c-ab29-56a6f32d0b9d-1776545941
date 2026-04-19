@@ -10,7 +10,9 @@ position: 23
 ---
 
 ## Notes
-Comprehensive mobile optimization for the entire platform. All dashboards, tables, forms, and navigation must work seamlessly on mobile devices (320px+). Focus on touch-friendly interfaces, readable text, proper spacing, and responsive layouts.
+Comprehensive mobile optimization completed for the entire platform. All dashboards, tables, forms, and navigation work seamlessly on mobile devices (320px+). Touch-friendly interfaces, readable text, proper spacing, and responsive layouts implemented across all pages.
+
+Fixed master admin authentication issue - accounts created via `/admin/init` now properly receive `master_admin` role.
 
 ## Checklist
 - [x] Create responsive navigation component with mobile menu
@@ -23,3 +25,4 @@ Comprehensive mobile optimization for the entire platform. All dashboards, table
 - [x] Add touch-friendly button sizes (min 44px)
 - [x] Test on common mobile breakpoints (320px, 375px, 414px, 768px)
 - [x] Ensure modals and dialogs work on mobile
+- [x] Fix admin authentication and role assignment
