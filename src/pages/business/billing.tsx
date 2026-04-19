@@ -10,7 +10,7 @@ import type { Database } from "@/integrations/supabase/types";
 import { 
   ArrowLeft, CreditCard, Download, ExternalLink, 
   Calendar, DollarSign, CheckCircle, AlertCircle,
-  TrendingUp, Receipt
+  TrendingUp, Receipt, Check, Settings, Plus, Clock
 } from "lucide-react";
 
 type Business = Database["public"]["Tables"]["businesses"]["Row"];
@@ -161,20 +161,21 @@ export default function Billing() {
 
   return (
     <>
-      <SEO title="Billing & Subscription | Business Dashboard" />
+      <SEO title="Billing - Business Dashboard" />
       
       <div className="min-h-screen bg-background">
-        <header className="border-b border-border/40">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Button variant="ghost" size="sm" onClick={() => router.push("/business")}>
+        {/* Header - Mobile Responsive */}
+        <header className="bg-card border-b sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Button variant="ghost" size="sm" onClick={() => router.push("/business")} className="flex-shrink-0">
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
-                <div>
-                  <h1 className="text-2xl font-bold">Billing & Subscription</h1>
-                  <p className="text-sm text-muted-foreground">
-                    Manage your platform subscription and payments
+                <div className="min-w-0">
+                  <h1 className="text-base sm:text-xl font-heading font-semibold truncate">Billing & Subscription</h1>
+                  <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
+                    Manage your platform subscription
                   </p>
                 </div>
               </div>
@@ -182,200 +183,222 @@ export default function Billing() {
           </div>
         </header>
 
-        <main className="container mx-auto px-4 py-8 space-y-6">
-          {/* Current Subscription */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CreditCard className="h-5 w-5" />
-                Current Subscription
-              </CardTitle>
-              <CardDescription>Your active plan and billing status</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {hasActiveSubscription ? (
-                <div className="space-y-6">
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-4">
-                      <div>
-                        <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-2xl font-bold">{currentTier?.display_name || "Unknown Plan"}</h3>
-                          {getStatusBadge(business?.subscription_status || null)}
-                        </div>
-                        <p className="text-muted-foreground">{currentTier?.description}</p>
-                      </div>
-
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {business?.current_period_end && (
-                          <div className="flex items-center gap-2 text-sm">
-                            <Calendar className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-muted-foreground">Renews:</span>
-                            <span className="font-medium">
-                              {new Date(business.current_period_end).toLocaleDateString()}
-                            </span>
-                          </div>
-                        )}
-
-                        {business?.trial_end && new Date(business.trial_end) > new Date() && (
-                          <div className="flex items-center gap-2 text-sm">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-muted-foreground">Trial ends:</span>
-                            <span className="font-medium">
-                              {new Date(business.trial_end).toLocaleDateString()}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {currentTier?.features && (
-                        <div className="pt-4 border-t">
-                          <p className="text-sm font-medium mb-2">Included Features:</p>
-                          <div className="grid md:grid-cols-2 gap-2">
-                            {currentTier.features.slice(0, 6).map((feature: string, idx: number) => (
-                              <div key={idx} className="flex items-center gap-2 text-sm">
-                                <CheckCircle className="h-3 w-3 text-primary" />
-                                <span>{feature}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading billing information...</p>
+            </div>
+          ) : business ? (
+            <>
+              {/* Current Subscription Card - Mobile Optimized */}
+              <Card>
+                <CardHeader className="border-b">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                    <div className="flex-1">
+                      <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                        <CreditCard className="h-5 w-5 text-primary" />
+                        {currentTier ? currentTier.display_name : "No Active Plan"}
+                      </CardTitle>
+                      {currentTier && (
+                        <CardDescription className="mt-2 text-sm">
+                          ${Number(currentTier.monthly_price).toFixed(2)}/month or ${Number(currentTier.yearly_price).toFixed(2)}/year
+                        </CardDescription>
                       )}
                     </div>
-
-                    <div className="text-right">
-                      <div className="text-3xl font-bold">
-                        ${Number(currentTier?.monthly_price || 0).toFixed(2)}
-                      </div>
-                      <div className="text-sm text-muted-foreground">per month</div>
-                    </div>
+                    {business.subscription_status && (
+                      <StatusBadge 
+                        status={business.subscription_status as any} 
+                        type="business" 
+                      />
+                    )}
                   </div>
+                </CardHeader>
 
-                  <div className="flex gap-3 pt-4 border-t">
-                    <Button onClick={handleManageSubscription} disabled={processingAction}>
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Manage Subscription
-                    </Button>
-                    <Button variant="outline">
-                      <TrendingUp className="h-4 w-4 mr-2" />
-                      Upgrade Plan
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">No Active Subscription</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Subscribe to a plan to unlock all platform features
-                  </p>
-                  <Button onClick={() => router.push("/pricing")}>
-                    View Available Plans
-                  </Button>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Available Plans */}
-          {!hasActiveSubscription && availableTiers.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Choose Your Plan</CardTitle>
-                <CardDescription>Select a subscription tier to get started</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-3 gap-6">
-                  {availableTiers.map((tier) => (
-                    <Card key={tier.id} className="border-2 hover:border-primary transition-colors">
-                      <CardHeader>
-                        <CardTitle>{tier.display_name}</CardTitle>
-                        <CardDescription>{tier.description}</CardDescription>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
+                <CardContent className="pt-6 space-y-6">
+                  {currentTier && (
+                    <>
+                      {/* Subscription Details - Mobile Stacked */}
+                      <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
-                          <div className="text-3xl font-bold">
-                            ${Number(tier.monthly_price).toFixed(2)}
+                          <h3 className="text-sm font-semibold mb-3">Billing Cycle</h3>
+                          <div className="bg-muted/30 rounded-lg p-3 sm:p-4">
+                            <p className="text-xs sm:text-sm text-muted-foreground mb-1">Current Period</p>
+                            <p className="font-medium text-sm sm:text-base">
+                              {business.current_period_end 
+                                ? `Renews ${new Date(business.current_period_end).toLocaleDateString()}`
+                                : "N/A"}
+                            </p>
                           </div>
-                          <div className="text-sm text-muted-foreground">per month</div>
                         </div>
 
-                        <div className="space-y-2">
-                          {tier.features?.slice(0, 5).map((feature: string, idx: number) => (
-                            <div key={idx} className="flex items-start gap-2 text-sm">
-                              <CheckCircle className="h-4 w-4 text-primary mt-0.5" />
-                              <span>{feature}</span>
+                        <div>
+                          <h3 className="text-sm font-semibold mb-3">Payment Method</h3>
+                          <div className="bg-muted/30 rounded-lg p-3 sm:p-4">
+                            <p className="text-xs sm:text-sm text-muted-foreground mb-1">Status</p>
+                            <p className="font-medium text-sm sm:text-base">
+                              {business.subscription_status === "active" ? "Payment Active" : "Update Required"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Features List - Mobile Responsive */}
+                      <div>
+                        <h3 className="text-sm font-semibold mb-3">Plan Features</h3>
+                        <div className="grid sm:grid-cols-2 gap-2 sm:gap-3">
+                          {Array.isArray(currentTier.features) && currentTier.features.map((feature: string, idx: number) => (
+                            <div key={idx} className="flex items-start gap-2">
+                              <Check className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
+                              <span className="text-xs sm:text-sm">{feature}</span>
                             </div>
                           ))}
                         </div>
+                      </div>
 
-                        <Button 
-                          className="w-full"
-                          onClick={() => handleSubscribe(tier.stripe_monthly_price_id)}
-                          disabled={!tier.stripe_monthly_price_id || processingAction}
-                        >
-                          {tier.stripe_monthly_price_id ? "Subscribe Now" : "Coming Soon"}
+                      {/* Action Buttons - Mobile Stacked */}
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t">
+                        {business.stripe_subscription_id ? (
+                          <Button 
+                            onClick={handleManageSubscription} 
+                            disabled={managingSubscription}
+                            className="w-full sm:flex-1"
+                          >
+                            <Settings className="h-4 w-4 mr-2" />
+                            {managingSubscription ? "Loading..." : "Manage Subscription"}
+                          </Button>
+                        ) : (
+                          <Button 
+                            onClick={() => router.push("/pricing")}
+                            className="w-full sm:flex-1"
+                          >
+                            <Plus className="h-4 w-4 mr-2" />
+                            Subscribe to a Plan
+                          </Button>
+                        )}
+                        <Button variant="outline" className="w-full sm:flex-1">
+                          <TrendingUp className="h-4 w-4 mr-2" />
+                          Upgrade Plan
                         </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                      </div>
+                    </>
+                  )}
+
+                  {!currentTier && (
+                    <div className="text-center py-8 sm:py-12">
+                      <AlertCircle className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-muted-foreground mb-4" />
+                      <h3 className="text-base sm:text-lg font-semibold mb-2">No Active Subscription</h3>
+                      <p className="text-sm text-muted-foreground mb-4 sm:mb-6">
+                        Choose a plan to unlock all platform features
+                      </p>
+                      <Button onClick={() => router.push("/pricing")} className="w-full sm:w-auto">
+                        View Pricing Plans
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Trial Notice - Mobile Optimized */}
+              {business.subscription_status === "trialing" && business.trial_end && (
+                <Card className="border-accent bg-accent/5">
+                  <CardContent className="py-4 sm:py-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
+                      <div className="h-10 w-10 rounded-lg bg-accent/20 flex items-center justify-center flex-shrink-0">
+                        <Clock className="h-5 w-5 text-accent" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold mb-1 text-sm sm:text-base">Free Trial Active</h3>
+                        <p className="text-xs sm:text-sm text-muted-foreground mb-3">
+                          Your trial ends on {new Date(business.trial_end).toLocaleDateString()}. 
+                          Add a payment method to continue using the platform after your trial.
+                        </p>
+                        <Button size="sm" className="w-full sm:w-auto">
+                          Add Payment Method
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Payment History - Horizontal Scroll on Mobile */}
+              <Card>
+                <CardHeader>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div>
+                      <CardTitle className="text-lg sm:text-xl">Payment History</CardTitle>
+                      <CardDescription className="text-sm">Your billing and invoice records</CardDescription>
+                    </div>
+                    <Button variant="outline" size="sm" className="w-full sm:w-auto">
+                      <Download className="h-4 w-4 mr-2" />
+                      Export
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto -mx-4 sm:mx-0">
+                    <div className="inline-block min-w-full align-middle">
+                      <table className="w-full">
+                        <thead>
+                          <tr className="border-b text-left text-sm text-muted-foreground">
+                            <th className="pb-3 pl-4 sm:pl-0 font-medium whitespace-nowrap">Date</th>
+                            <th className="pb-3 font-medium whitespace-nowrap">Amount</th>
+                            <th className="pb-3 font-medium whitespace-nowrap">Status</th>
+                            <th className="pb-3 pr-4 sm:pr-0 font-medium whitespace-nowrap">Invoice</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y">
+                          {payments.map((payment) => (
+                            <tr key={payment.id} className="hover:bg-muted/50">
+                              <td className="py-4 pl-4 sm:pl-0 text-sm whitespace-nowrap">
+                                {new Date(payment.paid_at).toLocaleDateString()}
+                              </td>
+                              <td className="py-4 font-medium whitespace-nowrap">
+                                ${Number(payment.amount_paid).toFixed(2)}
+                              </td>
+                              <td className="py-4">
+                                <Badge variant={payment.status === "paid" ? "default" : "secondary"}>
+                                  {payment.status}
+                                </Badge>
+                              </td>
+                              <td className="py-4 pr-4 sm:pr-0">
+                                {payment.stripe_invoice_id && (
+                                  <Button variant="ghost" size="sm" asChild>
+                                    <a 
+                                      href={`https://dashboard.stripe.com/invoices/${payment.stripe_invoice_id}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <Download className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1" />
+                                      <span className="hidden sm:inline">View</span>
+                                    </a>
+                                  </Button>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+
+                      {payments.length === 0 && (
+                        <div className="text-center py-12 px-4">
+                          <CreditCard className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-muted-foreground mb-4" />
+                          <p className="text-muted-foreground text-sm">No payment history yet</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </>
+          ) : (
+            <Card>
+              <CardContent className="py-12 text-center">
+                <AlertCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                <p className="text-muted-foreground">Business not found</p>
               </CardContent>
             </Card>
           )}
-
-          {/* Payment History */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Receipt className="h-5 w-5" />
-                Payment History
-              </CardTitle>
-              <CardDescription>Your invoices and payment records</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {payments.length > 0 ? (
-                <div className="space-y-3">
-                  {payments.map((payment) => (
-                    <div 
-                      key={payment.id} 
-                      className="flex items-center justify-between p-4 rounded-lg border hover:bg-muted/50 transition-colors"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                          <DollarSign className="h-5 w-5 text-primary" />
-                        </div>
-                        <div>
-                          <div className="font-medium">
-                            ${Number(payment.amount_paid).toFixed(2)} {payment.currency?.toUpperCase()}
-                          </div>
-                          <div className="text-sm text-muted-foreground">
-                            {payment.paid_at ? new Date(payment.paid_at).toLocaleDateString() : "Pending"}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-3">
-                        <Badge variant={payment.status === "paid" ? "default" : "secondary"}>
-                          {payment.status}
-                        </Badge>
-                        {payment.invoice_url && (
-                          <Button variant="ghost" size="sm" asChild>
-                            <a href={payment.invoice_url} target="_blank" rel="noopener noreferrer">
-                              <Download className="h-4 w-4" />
-                            </a>
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  No payment history yet
-                </div>
-              )}
-            </CardContent>
-          </Card>
         </main>
       </div>
     </>
